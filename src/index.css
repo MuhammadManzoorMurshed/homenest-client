@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: light --default, dark, cupcake;
+}
+
+/* Customize the light Theme */
+/* @plugin "daisyui/theme" {
+  name: "light",
+  default: true,
+  --color-primary: blue;
+  --color-secondary: tea;
+} */
+
+@theme {
+  --font-fredoka: 'Fredoka', sans-serif;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
