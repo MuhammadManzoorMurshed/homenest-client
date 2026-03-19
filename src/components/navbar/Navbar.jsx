@@ -45,7 +45,7 @@ const Navbar = () => {
                     </div>
                     <ul
                         tabIndex="-1"
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        className="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow space-y-2">
                         {
                             links
                         }
@@ -65,8 +65,8 @@ const Navbar = () => {
             </div>
             {/* --------------- Button --------------- */}
             <div className="navbar-end space-x-3">
-                <Link to={'/authentication/signup'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signup</Link>
-                <Link to={'/authentication/signin'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signin</Link>
+                <NavLink to={'/authentication/signup'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signup</NavLink>
+                <NavLink to={'/authentication/signin'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signin</NavLink>
             </div>
 
             {/* --------------- Profile --------------- */}
