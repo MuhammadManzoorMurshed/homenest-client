@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
 
 @plugin "daisyui" {
   themes: light --default, dark, cupcake;
@@ -18,4 +20,12 @@
 
 body {
   font-family: 'Inter', sans-serif;
+}
+
+.active {
+  @apply bg-teal-300 text-teal-900;
+}
+
+.pending {
+  @apply bg-teal-400;
 }
