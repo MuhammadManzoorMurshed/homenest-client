@@ -1,14 +1,34 @@
 import React, { useState } from 'react';
 import { RxEyeOpen } from 'react-icons/rx';
 import { GoEyeClosed } from 'react-icons/go';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useContext';
 
 const Signin = () => {
+    const { signIn } = useAuth();
+    const location = useLocation();
+    const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = (event) => {
+    const from = location.state?.from || '/';
+
+    const handleLogin = async (event) => {
         event.preventDefault();
 
+        const form = event.target;
+        const email = form.email.value;
+        const password = form.pass.value;
+
+        signIn(email, password)
+            .then(result => {
+                const user = result.user;
+                console.log("Logged in user: ", user);
+
+                form.reset();
+                // Redirect to the previous page or home page
+                navigateTo(from, { replace: true });
+            })
+            .catch(error => console.log("Error while logging in: ", error));
     }
 
     const handleForgotPassword = () => {

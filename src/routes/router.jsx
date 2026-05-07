@@ -7,40 +7,47 @@ import MyProperties from "../pages/my-properties/MyProperties";
 import MyRatings from "../pages/my-ratings/MyRatings";
 import Signup from "../pages/signup/Signup";
 import Signin from "../pages/signin/Signin";
+import ProtectedRoute from "./ProtectedRoute";
 
-const router = createBrowserRouter ([
+const router = createBrowserRouter([
     {
         path: '/',
-        Component: RootLayout,
+        element: <RootLayout />,
 
         children: [
             {
                 index: true,
-                Component: Home
+                element: <Home />
             },
             {
                 path: 'all-properties',
-                Component: AllProperties
+                element: <AllProperties />
             },
             {
                 path: 'add-properties',
-                Component: AddProperties
+                element: <ProtectedRoute>
+                    <AddProperties />
+                </ProtectedRoute>
             },
             {
                 path: 'my-properties',
-                Component: MyProperties
+                element: <ProtectedRoute>
+                    <MyProperties />
+                </ProtectedRoute>
             },
             {
                 path: 'my-ratings',
-                Component: MyRatings
+                element: <ProtectedRoute>
+                    <MyRatings />
+                </ProtectedRoute>
             },
             {
                 path: 'authentication/signup',
-                Component: Signup
+                element: <Signup />
             },
             {
                 path: 'authentication/signin',
-                Component: Signin
+                element: <Signin />
             },
         ],
     },

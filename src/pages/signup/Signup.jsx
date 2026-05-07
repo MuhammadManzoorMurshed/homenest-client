@@ -1,24 +1,105 @@
 import React, { useState } from 'react';
 import { RxEyeOpen } from 'react-icons/rx';
 import { GoEyeClosed } from 'react-icons/go';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useContext';
+import { checkName } from '../../utils/checkName';
+import { checkPhotoUrl } from '../../utils/checkPhotoUrl';
+import { checkEmail } from '../../utils/checkEmail';
+import { checkPassword } from '../../utils/checkPassword';
+import { checkConfirmPassword } from '../../utils/checkConfirmPassword';
 
 const Signup = () => {
+    const { signUp } = useAuth();
+    const location = useLocation();
+    const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [errors, setErrors] = useState({firstName: "", lastName: "", email: "", photo: "", password: "", confirtPassword: "", check: ""});
+    const [passwords, setPasswords] = useState({ password: "" , confirmPassword: "" });
+    const [errors, setErrors] = useState({ firstName: "", lastName: "", photoUrl: "", email: "", password: "", confirmPassword: "", check: "" });
 
+    const from = location.state?.from || '/';
+
+    // ------------ Hnadle Register Function ------------
     const handleRegister = (event) => {
         event.preventDefault();
-        setErrors("");
+
+        const form = event.target;
+        const firstName = form.fname.value;
+        const lastName = form.lname.value;
+        const photoURL = form.photo.value;
+        const email = form.email.value;
+        const password = form.pass.value;
+        const confirmPassword = form.conpass.value;
+        const isCheckedTC = form.check.checked;
+
+        console.log(firstName, lastName, photoURL, email, password, confirmPassword, isCheckedTC);
+
+        if(!firstName) {
+            setErrors(prevErrors => ({...prevErrors, firstName: "First name cannnot be empty"}));
+
+            return;
+        } else {
+            setErrors(prevErrors => ({...prevErrors, firstName: ""}));
+        }
+
+        signUp(email, password)
+        .then( result => {
+            const user = result.user;
+            console.log("User created succesfully: ", user);
+
+            form.reset();
+            navigateTo(from, { replace: true });
+        })
+        .catch( error => {
+            console.error("Error creating user: ", error);
+        });
     }
 
-    const handlePassword = () => {
-
+    // --------------- Set Error Function ---------------
+    const setError = (errorFor, error) => {
+        setErrors(prevErrors => ({ ...prevErrors, [errorFor]: error }));
     }
 
-    const handleConfirmPassword = {
+    // ----------- Hnadle First Name Function -----------
+    const handleFirstName = (event) => {
+        const error = checkName(event.target.value);
+        setError("firstName", error);
+    }
 
+    // ------------ Hnadle Last Name Function ------------
+    const handleLastName = (event) => {
+        const error = checkName(event.target.value);
+        setError("lastName", error);
+    }
+
+    // -------- Hnadle Profile Photo URL Function --------
+    const handleProfilePhotoUrl = (event) => {
+        const error = checkPhotoUrl(event.target.value);
+        setError("photoUrl", error);
+    }
+
+    // -------------- Hnadle Email Function --------------
+    const handleEmail = (event) => {
+        const error = checkEmail(event.target.value);
+        setError("email", error);
+    }
+
+    // ------------ Hnadle Password Function ------------
+    const handlePassword = (event) => {
+        const newPassword = event.target.value;
+        const error = checkPassword(newPassword);
+        setError("password", error);
+        setPasswords(prevPasswords => ({ ...prevPasswords, password: newPassword }));
+    }
+
+    // -------- Hnadle Confirm Password Function --------
+    const handleConfirmPassword = (event) => {
+        const newConfirmPassword = event.target.value;
+        const error = checkConfirmPassword(passwords.password, newConfirmPassword);
+        setError("confirmPassword", error);
+        setPasswords(prevPasswords => ({ ...prevPasswords, confirmPassword: newConfirmPassword }));
+        setError("confirmPassword", error);
     }
 
     return (
@@ -29,19 +110,35 @@ const Signup = () => {
                     <fieldset className="fieldset">
                         {/* First Name */}
                         <label className="label font-fredoka font-semibold text-lg" htmlFor="fname">First Name</label>
-                        <input type="text" className="input w-full border-0" id='fname' name='fname' placeholder="@ First name here" />
+                        <input onBlur={handleFirstName} type="text" className="input w-full border-0" id='fname' name='fname' placeholder="@ First name here" />
+
+                        {
+                            errors.firstName && <p className='text-red-500 text-sm'>{errors.firstName}</p>
+                        }
 
                         {/* Last Name */}
                         <label className="label font-fredoka font-semibold text-lg mt-2" htmlFor='lname'>Last Name</label>
-                        <input type="text" className="input w-full border-0" id='lname' name='lname' placeholder="@ Last name here" />
+                        <input onBlur={handleLastName} type="text" className="input w-full border-0" id='lname' name='lname' placeholder="@ Last name here" />
+
+                        {
+                            errors.lastName && <p className='text-red-500 text-sm'>{errors.lastName}</p>
+                        }
 
                         {/* Profile Photo */}
                         <label className="label font-fredoka font-semibold text-lg mt-2" htmlFor='photo'>Profile Photo</label>
-                        <input type="text" className="input w-full border-0" id='photo' name='photo' placeholder="@ Profile photo URL here" />
+                        <input onBlur={handleProfilePhotoUrl} type="text" className="input w-full border-0" id='photo' name='photo' placeholder="@ Profile photo URL here" />
+
+                        {
+                            errors.photoUrl && <p className='text-red-500 text-sm'>{errors.photoUrl}</p>
+                        }
 
                         {/* Email */}
                         <label className="label font-fredoka font-semibold text-lg mt-2" htmlFor='email'>Email</label>
-                        <input type="email" className="input w-full border-0" id='email' name='email' placeholder="@ Email here" />
+                        <input onBlur={handleEmail} type="email" className="input w-full border-0" id='email' name='email' placeholder="@ Email here" />
+
+                        {
+                            errors.email && <p className='text-red-500 text-sm'>{errors.email}</p>
+                        }
 
                         {/* Password */}
                         <div className=''>
@@ -77,6 +174,7 @@ const Signup = () => {
                             {errors.confirmPassword && <p className='text-red-500 text-sm'>{errors.confirmPassword}</p>}
                         </div>
 
+                        {/* Terms & Condition */}
                         <div>
                             <label className="label mt-4" htmlFor='check'>
                                 <input type="checkbox" className="checkbox" id='check' name='check' />

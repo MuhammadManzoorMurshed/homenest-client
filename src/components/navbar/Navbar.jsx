@@ -1,8 +1,20 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import logo from './../../assets/logo.svg';
+import useAuth from '../../hooks/useContext';
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
+    const navigateTo = useNavigate();
+
+    const handleLogout = () => {
+        logOut()
+            .then(() => {
+                navigateTo('/authentication/signin');
+            })
+            .catch(error => console.log("Error while logging out: ", error));
+    }
+
     const links = <>
         <li>
             <NavLink
@@ -65,38 +77,46 @@ const Navbar = () => {
             </div>
             {/* --------------- Button --------------- */}
             <div className="navbar-end space-x-3">
-                <NavLink to={'/authentication/signup'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signup</NavLink>
-                <NavLink to={'/authentication/signin'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signin</NavLink>
+                {
+                    !user && <>
+                        <NavLink to={'/authentication/signup'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signup</NavLink>
+                        <NavLink to={'/authentication/signin'} className="btn bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signin</NavLink>
+                    </>
+                }
             </div>
 
             {/* --------------- Profile --------------- */}
-            <div className="ml-4">
-                {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full transition duration-300 hover:outline-2 hover:outline-teal-500 hover:scale-105">
-                            <img
-                                alt="Tailwind CSS Navbar component"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            {
+                user && <>
+                    <div className="ml-4">
+                        {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full transition duration-300 hover:outline-2 hover:outline-teal-500 hover:scale-105">
+                                    <img
+                                        alt="Tailwind CSS Navbar component"
+                                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                </div>
+                            </div>
+                            <ul
+                                tabIndex="-1"
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-75 px-2 py-6 shadow">
+                                <li className=''>
+                                    <a className="justify-between">
+                                        Profile
+                                        <span className="badge bg-teal-300">New</span>
+                                    </a>
+                                </li>
+                                <div className='p-2'>
+                                    <li className='text-teal-700 text-base font-bold'>Muhammad Manzoor Murshed</li>
+                                    <li className='mt-2 text-teal-500 text-sm'>mmmftcctgbdpuc@gmail.com</li>
+                                </div>
+                                <button onClick={handleLogout} className='btn mt-2 transition duration-300 hover:bg-teal-500 hover:text-white hover:scale-x-95 hover:scale-y-110'>Logout</button>
+                            </ul>
                         </div>
                     </div>
-                    <ul
-                        tabIndex="-1"
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-75 px-2 py-6 shadow">
-                        <li className=''>
-                            <a className="justify-between">
-                                Profile
-                                <span className="badge bg-teal-300">New</span>
-                            </a>
-                        </li>
-                        <div className='p-2'>
-                            <li className='text-teal-700 text-base font-bold'>Muhammad Manzoor Murshed</li>
-                            <li className='mt-2 text-teal-500 text-sm'>mmmftcctgbdpuc@gmail.com</li>
-                        </div>
-                        <button className='btn mt-2 transition duration-300 hover:bg-teal-500 hover:text-white hover:scale-x-95 hover:scale-y-110'>Logout</button>
-                    </ul>
-                </div>
-            </div>
+                </>
+            }
         </div>
     );
 };
