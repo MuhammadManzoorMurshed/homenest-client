@@ -103,7 +103,7 @@ const Signup = () => {
     }
 
     return (
-        <div className='card my-15 bg-teal-100 sm:w-150 md:w-175 sm:mx-auto mx-4 sm:px-6 py-10'>
+        <div className='card my-15 bg-teal-100 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
             <h1 className='font-fredoka font-semibold text-4xl text-teal-900 text-center mb-10'>Register Now!</h1>
             <div className='card-body px-4'>
                 <form onSubmit={handleRegister} className="w-full">

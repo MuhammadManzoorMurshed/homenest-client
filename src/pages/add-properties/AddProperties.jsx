@@ -93,7 +93,7 @@ const AddProperties = () => {
     }
     
     return (
-        <div className='mx-auto rounded-lg bg-teal-100 my-15 p-10 sm:w-150 md:w-175'>
+        <div className='mx-auto rounded-lg bg-teal-100 my-15 px-4 py-15 sm:py-20 sm:px-10 sm:w-150 md:w-175'>
             <form  className='flex flex-col' action="" onSubmit={handleFormSubmit}>
                 <div className='text-center mb-15'>
                     <h1 className='font-fredoka font-semibold text-4xl text-teal-900'>Add New Property</h1>
@@ -170,7 +170,7 @@ const AddProperties = () => {
                 <input className='input w-full border-0' type="email" id="email" name="email" placeholder='@ Type your email here'/>
 
                 {/* Submit Button */}
-                <button className='btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0 transform transition-transform hover:scale-y-105 duration-300' type="submit">Add Property</button>
+                <button className='btn btn-neutral mt-6 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0 transform transition-transform hover:scale-y-105 duration-300' type="submit">Add Property</button>
             </form>
         </div> 
     );
