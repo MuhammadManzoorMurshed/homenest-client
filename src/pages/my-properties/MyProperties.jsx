@@ -2,6 +2,17 @@ import React from 'react';
 import MyProperty from '../../components/my-property.jsx/MyProperty';
 
 const MyProperties = () => {
+    const images = [
+        {id: 1, image: '/1.png'},
+        {id: 2, image: '/2.png'},
+        {id: 3, image: '/3.png'},
+        {id: 4, image: '/4.png'},
+        {id: 5, image: '/5.png'},
+        {id: 6, image: '/6.png'},
+        {id: 7, image: '/7.png'},
+        {id: 8, image: '/8.png'},
+    ];
+
     return (
         <div className='max-w-7xl mx-auto my-15'>
             <div className='text-right'>
@@ -11,8 +22,8 @@ const MyProperties = () => {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-15 justify-items-center'>
                 {
-                    Array.from({ length: 8 }).map((_, index) => (
-                        <MyProperty key={index} />
+                    images.map(img => (
+                        <MyProperty key={img.id} image={img.image} />
                     ))
                 }
             </div>
