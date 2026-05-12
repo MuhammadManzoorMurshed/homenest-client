@@ -8,6 +8,7 @@ import MyRatings from "../pages/my-ratings/MyRatings";
 import Signup from "../pages/signup/Signup";
 import Signin from "../pages/signin/Signin";
 import ProtectedRoute from "./ProtectedRoute";
+import PropertyDetails from "../pages/property-details/PropertyDetails";
 
 const router = createBrowserRouter([
     {
@@ -49,6 +50,12 @@ const router = createBrowserRouter([
                 path: 'authentication/signin',
                 element: <Signin />
             },
+            {
+                path: 'properties/:id',
+                element: // <ProtectedRoute>
+                    <PropertyDetails />
+                // </ProtectedRoute>
+            }
         ],
     },
     {
