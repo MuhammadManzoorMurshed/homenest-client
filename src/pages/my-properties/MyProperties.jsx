@@ -1,5 +1,5 @@
 import React from 'react';
-import MyProperty from '../../components/my-property.jsx/MyProperty';
+import MyProperty from '../../components/my-property/MyProperty';
 
 const MyProperties = () => {
     const images = [
