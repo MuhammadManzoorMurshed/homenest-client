@@ -38,9 +38,9 @@ const router = createBrowserRouter([
             },
             {
                 path: 'my-ratings',
-                element: <ProtectedRoute>
+                element: // <ProtectedRoute>
                     <MyRatings />
-                </ProtectedRoute>
+                // </ProtectedRoute>
             },
             {
                 path: 'authentication/signup',
