@@ -3,7 +3,7 @@ import { FaChevronDown, FaSearch } from 'react-icons/fa';
 
 const Search = () => {
     return (
-        <section className='my-5 bg-white p-5 rounded-md flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4'>
+        <section className='my-10 bg-white p-5 rounded-md flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4'>
             <div className='relative sm:flex-1 lg:flex-2'>
                 <input type="text" placeholder='City, Zip or Neighborhood...' className='w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-1 focus:ring-teal-500 placeholder:text-xs placeholder:pl-5' />
 

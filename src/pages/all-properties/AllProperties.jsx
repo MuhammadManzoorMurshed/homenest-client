@@ -24,7 +24,7 @@ const AllProperties = () => {
 
             <Search />
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-15 justify-items-center'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 justify-items-center'>
                 {
                     // Array.from({ length: 8 }).map((_, index) => (
                     //     <PropertyCard key={index} />
