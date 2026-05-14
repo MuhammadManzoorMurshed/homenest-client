@@ -1,5 +1,7 @@
 import React from 'react';
 import PropertyCard from '../../components/property-card/PropertyCard';
+import Pagination from '../../components/pagination/Pagination';
+import Search from '../../components/search/Search';
 
 const AllProperties = () => {
     const images = [
@@ -20,6 +22,8 @@ const AllProperties = () => {
                 <p className='font-medium text-md text-center mt-4'>Explore our curated selection of premium residences, from modern<span className='hidden sm:inline'><br /></span>urban lofts to sprawling suburban estates. Find the perfect place to call home.</p>
             </div>
 
+            <Search />
+
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-15 justify-items-center'>
                 {
                     // Array.from({ length: 8 }).map((_, index) => (
@@ -31,6 +35,8 @@ const AllProperties = () => {
                     ))
                 }
             </div>
+
+            <Pagination borderRadius='!rounded-xl' isHidden='flex' />
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import RatingCard from '../../components/rating-card/RatingCard';
-import { FaCaretLeft, FaCaretRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import Pagination from '../../components/pagination/Pagination';
 
 const MyRatings = () => {
     return (
@@ -30,17 +30,7 @@ const MyRatings = () => {
                 }
             </div>
 
-            <div className='flex justify-center items-center gap-4 mt-10'>
-                <button className='btn btn-outline transition-all duration-300 hover:bg-teal-400 hover:scale-105 hover:text-white border-gray-300 rounded-full size-8 p-3'><FaChevronLeft /></button>
-
-                <button className='btn btn-outline bg-teal-500 text-white transition-all duration-300 hover:bg-teal-400 hover:scale-105 hover:text-white border-gray-300 rounded-full size-8 p-3'>1</button>
-
-                <button className='btn btn-outline transition-all duration-300 hover:bg-teal-400 hover:scale-105 hover:text-white border-gray-300 rounded-full size-8 p-3'>2</button>
-
-                <button className='btn btn-outline transition-all duration-300 hover:bg-teal-400 hover:scale-105 hover:text-white border-gray-300 rounded-full size-8 p-3'>3</button>
-                
-                <button className='btn btn-outline transition-all duration-300 hover:bg-teal-400 hover:scale-105 hover:text-white border-gray-300 rounded-full size-8 p-3'><FaChevronRight /></button>
-            </div>
+            <Pagination borderRadius='!rounded-full' />
         </div>
     );
 };
