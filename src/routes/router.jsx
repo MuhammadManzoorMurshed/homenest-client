@@ -32,9 +32,9 @@ const router = createBrowserRouter([
             },
             {
                 path: 'my-properties',
-                element: <ProtectedRoute>
+                element: //<ProtectedRoute>
                     <MyProperties />
-                </ProtectedRoute>
+                //</ProtectedRoute>
             },
             {
                 path: 'my-ratings',
