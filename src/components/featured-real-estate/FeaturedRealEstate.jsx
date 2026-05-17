@@ -15,7 +15,7 @@ const FeaturedRealEstate = () => {
         ];
 
     return (
-        <section className='max-w-7xl mx-auto my-15'>
+        <section className='max-w-7xl mx-auto my-15 sm:my-25'>
             <div className='[@media(min-width:32rem)]:flex [@media(min-width:32rem)]:justify-between [@media(min-width:32rem)]:items-end'>
                 <div className='text-right'>
                     <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 text-left'>Featured Real Estate</h2>
@@ -27,7 +27,7 @@ const FeaturedRealEstate = () => {
                 </div>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 justify-items-center mt-15'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15 justify-items-center mt-15'>
                 {
                     // Array.from({ length: 8 }).map((_, index) => (
                     //     <PropertyCard key={index} />
