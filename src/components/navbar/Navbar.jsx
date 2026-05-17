@@ -51,7 +51,7 @@ const Navbar = () => {
     </>
 
     return (
-        <div className="max-w-360 mx-auto navbar px-0">
+        <div className="max-w-360 mx-auto navbar px-0 lg:pl-4">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost mx-1 px-3 transition duration-300 hover:bg-teal-500 hover:scale-95 lg:hidden">
@@ -78,7 +78,7 @@ const Navbar = () => {
                 </ul>
             </div>
             {/* --------------- Button --------------- */}
-            <div className="navbar-end space-x-3">
+            <div className="navbar-end space-x-3 sm:pr-4">
                 {
                     !user && <>
                         <Link to={'/authentication/signin'} className='transition hover:scale-95 duration-300' ><CgLogIn className='w-6 h-6 sm:hidden text-teal-500'/></Link>
