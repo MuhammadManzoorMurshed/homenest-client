@@ -11,12 +11,9 @@ const RootLayout = () => {
                 <div className='py-5 bg-teal-100 shadow-xs rounded-bl-2xl rounded-br-2xl'>
                     <Navbar />
                 </div>
-                <div className='rounded-tl-2xl rounded-tr-2xl overflow-hidden'>
-                    <HeroCarousel />
-                </div>
             </header>
 
-            <main className='px-4'>
+            <main className='px-4 sm:px-0'>
                 <Outlet />
             </main>
 
