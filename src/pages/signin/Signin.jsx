@@ -65,6 +65,14 @@ const Signin = () => {
             .then(result => {
                 console.log("Signed in: ", result.user);
 
+                MySwal.fire({
+                    icon: "success",
+                    title: "Welcome!",
+                    text: "Logged in successfully with your google account!",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#16bdca",
+                })
+
                 navigateTo(from, {replace: true});
             })
             .catch(error => {
