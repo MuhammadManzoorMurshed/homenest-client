@@ -32,15 +32,15 @@ const router = createBrowserRouter([
             },
             {
                 path: 'my-properties',
-                element: //<ProtectedRoute>
+                element: <ProtectedRoute>
                     <MyProperties />
-                //</ProtectedRoute>
+                </ProtectedRoute>
             },
             {
                 path: 'my-ratings',
-                element: // <ProtectedRoute>
+                element: <ProtectedRoute>
                     <MyRatings />
-                // </ProtectedRoute>
+                </ProtectedRoute>
             },
             {
                 path: 'authentication/signup',
@@ -52,9 +52,9 @@ const router = createBrowserRouter([
             },
             {
                 path: 'properties/:id',
-                element: // <ProtectedRoute>
+                element: <ProtectedRoute>
                     <PropertyDetails />
-                // </ProtectedRoute>
+                </ProtectedRoute>
             }
         ],
     },
