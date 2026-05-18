@@ -8,9 +8,10 @@ import { checkPhotoUrl } from '../../utils/checkPhotoUrl';
 import { checkEmail } from '../../utils/checkEmail';
 import { checkPassword } from '../../utils/checkPassword';
 import { checkConfirmPassword } from '../../utils/checkConfirmPassword';
+import Loading from './../../components/loading/Loading'
 
 const Signup = () => {
-    const { signUp } = useAuth();
+    const { signUp, loading } = useAuth();
     const location = useLocation();
     const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -100,6 +101,10 @@ const Signup = () => {
         setError("confirmPassword", error);
         setPasswords(prevPasswords => ({ ...prevPasswords, confirmPassword: newConfirmPassword }));
         setError("confirmPassword", error);
+    }
+
+    if(loading) {
+        return <Loading />
     }
 
     return (
