@@ -14,7 +14,9 @@ const Home = () => {
             <Helmet>
                 <title>HomeNest | Home</title>
             </Helmet>
-
+            <div className='rounded-tl-2xl rounded-tr-2xl overflow-hidden'>
+                <HeroCarousel />
+            </div>
             <FeaturedRealEstate />
             <WhyChooseUs />
             <NeighborhoodGuides />
