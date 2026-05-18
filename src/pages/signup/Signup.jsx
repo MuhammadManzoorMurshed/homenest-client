@@ -9,6 +9,7 @@ import { checkEmail } from '../../utils/checkEmail';
 import { checkPassword } from '../../utils/checkPassword';
 import { checkConfirmPassword } from '../../utils/checkConfirmPassword';
 import Loading from './../../components/loading/Loading'
+import MySwal from '../../lib/swal';
 
 const Signup = () => {
     const { signUp, loading } = useAuth();
@@ -44,12 +45,21 @@ const Signup = () => {
             setErrors(prevErrors => ({...prevErrors, firstName: ""}));
         }
 
-        signUp(email, password)
+        signUp(email, password, `${firstName} ${lastName}`, photoURL)
         .then( result => {
             const user = result.user;
             console.log("User created succesfully: ", user);
 
             form.reset();
+
+            MySwal.fire({
+                icon: "success",
+                title: "Welcome!",
+                text: "Your sign up is successfull.",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#16bdca",
+            })
+
             navigateTo(from, { replace: true });
         })
         .catch( error => {
