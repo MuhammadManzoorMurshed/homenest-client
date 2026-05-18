@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import { auth } from './../firebase/firebase.config.js'
+
+const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -9,41 +11,27 @@ const AuthProvider = ({ children }) => {
 
     const signUp = async (email, password) => {
         setLoading(true);
-
-        try {
-            return await createUserWithEmailAndPassword(auth, email, password);
-        } finally {
-            setLoading(false);
-        }
+        return await createUserWithEmailAndPassword(auth, email, password);
     }
 
     const signIn = async (email, password) => {
         setLoading(true);
+        return await signInWithEmailAndPassword(auth, email, password);
+    }
 
-        try {
-            return await signInWithEmailAndPassword(auth, email, password);
-        } finally {
-            setLoading(false);
-        }
+    const signInWithGoogle = async () => {
+        setLoading(true);
+        return await signInWithPopup(auth, googleProvider);
     }
 
     const logOut = async () => {
         setLoading(true);
-
-        try {
-            await signOut(auth);
-        } finally {
-            setLoading(false);
-        }
+        await signOut(auth);
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setUser(currentUser);
-            } else {
-                setUser(null);
-            }
+            setUser(currentUser);
             setLoading(false);
         });
 
@@ -52,10 +40,12 @@ const AuthProvider = ({ children }) => {
 
     const value = {
         loading,
+        setLoading,
         signUp,
         user,
         logOut,
-        signIn
+        signIn,
+        signInWithGoogle
     };
 
     return (
