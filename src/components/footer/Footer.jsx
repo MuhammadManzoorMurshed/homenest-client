@@ -14,7 +14,7 @@ import logo from './../../assets/logo.svg';
 
 export function Footer() {
     return (
-        <FlowbiteFooter container>
+        <FlowbiteFooter container className="rounded-bl-none rounded-br-none">
             <div className="w-full max-w-360 mx-auto">
                 <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
                     <div className="text-6xl">
