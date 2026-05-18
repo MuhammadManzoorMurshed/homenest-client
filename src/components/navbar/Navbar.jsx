@@ -4,10 +4,18 @@ import logo from './../../assets/logo.svg';
 import useAuth from '../../hooks/useContext';
 import { RiUserAddFill } from 'react-icons/ri';
 import { CgLogIn } from "react-icons/cg";
+import Loading from '../loading/Loading';
 
 const Navbar = () => {
-    const { user, logOut } = useAuth();
+    const { user, logOut, loading } = useAuth();
     const navigateTo = useNavigate();
+
+    if(loading) {
+        return <Loading />
+    }
+
+    // const {displayName, email, photoURL} = user;
+    // console.log("User: in Nav: ", photoURL);
 
     const handleLogout = () => {
         logOut()
@@ -100,7 +108,8 @@ const Navbar = () => {
                                 <div className="w-10 rounded-full transition duration-300 hover:outline-2 hover:outline-teal-500 hover:scale-105">
                                     <img
                                         alt="Tailwind CSS Navbar component"
-                                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                        referrerPolicy="no-referrer"
+                                        src={user?.photoURL || "https://static.vecteezy.com/system/resources/previews/049/391/629/non_2x/young-man-avatar-character-due-avatar-man-icon-cartoon-illustration-free-vector.jpg"} />
                                 </div>
                             </div>
                             <ul
@@ -113,8 +122,8 @@ const Navbar = () => {
                                     </a>
                                 </li>
                                 <div className='p-2'>
-                                    <li className='text-teal-700 text-base font-bold'>Muhammad Manzoor Murshed</li>
-                                    <li className='mt-2 text-teal-500 text-sm'>mmmftcctgbdpuc@gmail.com</li>
+                                    <li className='text-teal-700 text-base font-bold'>{user?.displayName}</li>
+                                    <li className='mt-2 text-teal-500 text-sm'>{user?.email}</li>
                                 </div>
                                 <button onClick={handleLogout} className='btn mt-2 transition duration-300 hover:bg-teal-500 hover:text-white hover:scale-x-95 hover:scale-y-110'>Logout</button>
                             </ul>
