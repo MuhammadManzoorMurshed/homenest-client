@@ -9,11 +9,13 @@ import Signup from "../pages/signup/Signup";
 import Signin from "../pages/signin/Signin";
 import ProtectedRoute from "./ProtectedRoute";
 import PropertyDetails from "../pages/property-details/PropertyDetails";
+import PageNotFound from "../pages/page-not-found/PageNotFound";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <RootLayout />,
+        errorElement: <PageNotFound></PageNotFound>,
 
         children: [
             {
@@ -58,12 +60,10 @@ const router = createBrowserRouter([
             }
         ],
     },
-    {
-        path: '/*',
-        element: <div className='flex justify-center items-center min-h-screen'>
-            <h1>Error Page</h1>
-        </div>
-    }
+    // {
+    //     path: '/*',
+    //     element: <PageNotFound></PageNotFound>
+    // }
 ])
 
 export default router;
