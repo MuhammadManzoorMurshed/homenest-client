@@ -1,9 +1,47 @@
 import React from 'react';
 import MySwal from '../../lib/swal';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useContext';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 
 const AddProperties = () => {
+    const {user} = useAuth();
     const navigateTo = useNavigate();
+    const queryClient = useQueryClient();
+
+    const addMutation = useMutation({
+        mutationFn: propertyData => axios.post('http://localhost:3000/api/v1/add-properties', propertyData).then(res => res.data),
+
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['all-properties']
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['all-properties', user?.email]
+            });
+
+            MySwal.fire({
+                icon: "success",
+                title: "Property Added",
+                text: "Your property has been added successfully!",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#38bdf8",
+            })
+            .then(() => navigateTo('/my-properties'));
+        },
+
+        onError: (error) => {
+            MySwal.fire({
+                icon: "error",
+                title: error.message || "Error",
+                text: "Failed to add property. Please try again.",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#0694a2",
+            })
+        }
+    })
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +59,7 @@ const AddProperties = () => {
         const name = form['name'].value;
         const email = form['email'].value;
 
-        console.log(propertyName, description, propertyType, listingPurpose, price, city, thana, area, images, name, email);
+        // console.log(propertyName, description, propertyType, listingPurpose, price, city, thana, area, images, name, email);
 
         const propertyData = {
             propertyName,
@@ -41,60 +79,71 @@ const AddProperties = () => {
             }
         };
 
-        fetch('http://localhost:3000/api/v1/add-properties', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(propertyData),
-        })
-            .then(res => {
-                console.log("Response: ", res);
-                if (!res.ok) {
-                    throw new Error('Network response was not ok', res.statusText);
-                }
+        addMutation.mutate(propertyData, {
+            onSuccess: () => {
+                form.reset();
+            }
+        });
 
-                return res.json();
-            })
-            .then(data => {
-                // console.log('Server response: ', data);
+        // fetch('http://localhost:3000/api/v1/add-properties', {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     },
+        //     body: JSON.stringify(propertyData),
+        // })
+        //     .then(res => {
+        //         console.log("Response: ", res);
+        //         if (!res.ok) {
+        //             throw new Error('Network response was not ok', res.statusText);
+        //         }
 
-                if (data.success) {
-                    MySwal.fire({
-                        icon: "success",
-                        title: "Property Added",
-                        text: data.message || "Your property has been added successfully!",
-                        confirmButtonText: "OK",
-                        confirmButtonColor: "#38bdf8",
-                    })
+        //         return res.json();
+        //     })
+        //     .then(data => {
+        //         // console.log('Server response: ', data);
 
-                    form.reset();
-                    navigateTo('/my-properties');
-                } else {
-                    MySwal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: data.message || "Failed to add property. Please try again.",
-                        confirmButtonText: "OK",
-                        confirmButtonColor: "#ef4444",
-                    })
-                }
+        //         if (data.success) {
+        //             MySwal.fire({
+        //                 icon: "success",
+        //                 title: "Property Added",
+        //                 text: data.message || "Your property has been added successfully!",
+        //                 confirmButtonText: "OK",
+        //                 confirmButtonColor: "#38bdf8",
+        //             })
 
-            })
-            .catch(error => {
-                // console.error('Error adding property: ', error);
-                MySwal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: error.message || "An unexpected error occurred. Please try again.",
-                    confirmButtonText: "OK",
-                    confirmButtonColor: "#ef4444",
-                })
-            });
+        //             form.reset();
+        //             navigateTo('/my-properties');
+        //         } else {
+        //             MySwal.fire({
+        //                 icon: "error",
+        //                 title: "Error",
+        //                 text: data.message || "Failed to add property. Please try again.",
+        //                 confirmButtonText: "OK",
+        //                 confirmButtonColor: "#ef4444",
+        //             })
+        //         }
+
+        //     })
+        //     .catch(error => {
+        //         // console.error('Error adding property: ', error);
+        //         MySwal.fire({
+        //             icon: "error",
+        //             title: "Error",
+        //             text: error.message || "An unexpected error occurred. Please try again.",
+        //             confirmButtonText: "OK",
+        //             confirmButtonColor: "#ef4444",
+        //         })
+        //     });
     }
 
     return (
         <div className='mx-auto rounded-lg bg-teal-100 my-15 px-4 py-15 sm:py-20 sm:px-10 sm:w-150 md:w-175'>
+
+            <Helmet>
+                <title>HomeNest | Add Property</title>
+            </Helmet>
+
             <form className='flex flex-col' action="" onSubmit={handleFormSubmit}>
                 <div className='text-center mb-15'>
                     <h1 className='font-fredoka font-semibold text-4xl text-teal-900'>Add New Property</h1>
@@ -103,33 +152,34 @@ const AddProperties = () => {
 
                 {/* Property Name */}
                 <label className='label font-fredoka font-semibold text-lg mb-2' htmlFor="property-name">Property Name</label>
-                <input className='input w-full border-0' type="text" id="property-name" name="property-name" placeholder='@ e.g. Luxury Apartment in Dhanmondi' />
+                <input className='input w-full border-0' type="text" id="property-name" name="property-name" placeholder='@ e.g. Luxury Apartment in Dhanmondi' required />
 
                 {/* Description */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="description">Description</label>
-                <textarea className='textarea textarea-xs w-full border-0 text-base placeholder:text-sm' name="description" id="description" cols="30" rows="10" placeholder='@ Type property description here'></textarea>
+                <textarea className='textarea textarea-xs w-full border-0 text-base placeholder:text-sm' name="description" id="description" cols="30" rows="10" placeholder='@ Type property description here' required></textarea>
 
                 {/* Property Type */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="property-type">Property Type</label>
-                <select className='input w-full border-0' name="property-type" id="property-type">
+                <select className='input w-full border-0' name="property-type" id="property-type" required>
                     <option value="">Select a property type</option>
-                    <option value="commercialspace">Commercial Space</option>
                     <option value="apartment">Apartment</option>
-                    <option value="warehouse">Warehouse</option>
                     <option value="house">House</option>
                     <option value="flat">Flat</option>
+
+                    {/* <option value="warehouse">Warehouse</option>
+                    <option value="commercialspace">Commercial Space</option>
                     <option value="room">Room</option>
                     <option value="condo">Sublet</option>
                     <option value="condo">Office</option>
                     <option value="condo">Shop</option>
                     <option value="condo">Land</option>
                     <option value="condo">Hostel</option>
-                    <option value="condo">Villa</option>
+                    <option value="condo">Villa</option> */}
                 </select>
 
                 {/* Listing Purpose */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="listing-purpose">Listing Purpose</label>
-                <select className='input w-full border-0' name="listing-purpose" id="listing-purpose">
+                <select className='input w-full border-0' name="listing-purpose" id="listing-purpose" required>
                     <option value="">Select a purpose</option>
                     <option value="sale">For Sale</option>
                     <option value="rent">For Rent</option>
@@ -137,19 +187,19 @@ const AddProperties = () => {
 
                 {/* Price/Rent */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="price">Price/Rent</label>
-                <input className='input w-full border-0' type="number" id="price" name="price" placeholder='@ Type property price/rent here' />
+                <input className='input w-full border-0' type="number" id="price" name="price" placeholder='@ Type property price/rent here' required />
 
                 {/* Location */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="location">Location</label>
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                     <div>
                         <label className='label font-medium text-normal mb-2' htmlFor="city">City</label>
-                        <input className='input w-full border-0' type="text" id="city" name="city" placeholder='@ Type city here' />
+                        <input className='input w-full border-0' type="text" id="city" name="city" placeholder='@ Type city here' required />
                     </div>
 
                     <div>
                         <label className='label font-medium text-normal mb-2' htmlFor="thana">Upazilla/Thana</label>
-                        <input className='input w-full border-0' type="text" id="thana" name="thana" placeholder='@ Type upazilla/thana here' />
+                        <input className='input w-full border-0' type="text" id="thana" name="thana" placeholder='@ Type upazilla/thana here' required />
                     </div>
 
                     <div>
@@ -160,15 +210,15 @@ const AddProperties = () => {
 
                 {/* Images */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="images">Images</label>
-                <input className='input w-full border-0' type="text" name="images" id="images" placeholder='@ Enter image URLs separated by commas' />
+                <input className='input w-full border-0' type="text" name="images" id="images" placeholder='@ Enter image URLs separated by commas' required />
 
                 {/* Name */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="name">Name</label>
-                <input className='input w-full border-0' type="text" id="name" name="name" placeholder='@ Type your name here' />
+                <input className='input w-full border-0' type="text" id="name" name="name" placeholder='@ Type your name here' value={user?.displayName || ''} readOnly />
 
                 {/* Email */}
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="email">Email</label>
-                <input className='input w-full border-0' type="email" id="email" name="email" placeholder='@ Type your email here' />
+                <input className='input w-full border-0' type="email" id="email" name="email" placeholder='@ Type your email here' value={user?.email || ''} readOnly />
 
                 {/* Submit Button */}
                 <button className='btn btn-neutral mt-6 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0 transform transition-transform hover:scale-y-105 duration-300' type="submit">Add Property</button>

@@ -1,10 +1,16 @@
 import React from 'react';
 import RatingCard from '../../components/rating-card/RatingCard';
 import Pagination from '../../components/pagination/Pagination';
+import { Helmet } from 'react-helmet-async';
 
 const MyRatings = () => {
     return (
         <div className='max-w-7xl mx-auto my-15'>
+
+            <Helmet>
+                <title>HomeNest | My Ratings</title>
+            </Helmet>
+
             <div className='sm:flex sm:justify-between sm:items-center gap-6 mb-10'>
                 <div>
                     <h1 className='font-fredoka font-semibold text-4xl text-teal-900 text-left'>My Ratings</h1>

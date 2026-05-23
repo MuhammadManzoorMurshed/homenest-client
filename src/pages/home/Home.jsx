@@ -8,12 +8,12 @@ import HeroCarousel from '../../components/hero-carousel/HeroCarousel';
 
 const Home = () => {
 
-
     return (
         <>
             <Helmet>
                 <title>HomeNest | Home</title>
             </Helmet>
+
             <div className='rounded-tl-2xl rounded-tr-2xl overflow-hidden'>
                 <HeroCarousel />
             </div>
