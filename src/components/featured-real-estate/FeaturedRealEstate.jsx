@@ -1,18 +1,47 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import PropertyCard from '../../components/property-card/PropertyCard';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import MySwal from '../../lib/swal';
+import Loading1 from '../../components/loading/Loading1';
+import Loading from '../loading/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const FeaturedRealEstate = () => {
-    const images = [
-            { id: 1, image: '/1.png' },
-            { id: 2, image: '/2.png' },
-            { id: 3, image: '/3.png' },
-            { id: 4, image: '/4.png' },
-            { id: 5, image: '/5.png' },
-            { id: 6, image: '/6.png' },
-            // { id: 7, image: '/7.png' },
-            // { id: 8, image: '/8.png' },
-        ];
+    const navigateTo = useNavigate();
+
+    const { data: featuredProperties, isLoading, error, isError, refetch } = useQuery({
+        queryKey: ['featured-properties'],
+        queryFn: async () => {
+            const res = await axios.get('http://localhost:3000/api/v1/get-featured-properties');
+
+            return res.data;
+        },
+        staleTime: 5000, // 5 seconds
+    });
+
+    console.log("Featured Properties: ", featuredProperties);
+    console.log("Loading: ", isLoading);
+    console.log("Error: ", error);
+    console.log("Is Error: ", isError);
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        MySwal.fire({
+            icon: "error",
+            title: error.message || "Error",
+            text: "Failed to load featured properties. Please try again.",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0694a2",
+        })
+        // .then(() => {
+        //     refetch();
+        // });
+    }
 
     return (
         <section className='max-w-7xl mx-auto my-15 sm:my-25'>
@@ -23,18 +52,19 @@ const FeaturedRealEstate = () => {
                 </div>
 
                 <div className='flex justify-end mt-5 [@media(min-width:32rem)]:mt-0'>
-                    <button className='text-teal-600 flex items-center font-bold cursor-pointer transition duration-300 hover:text-teal-500 hover:scale-105'>View All &nbsp; <FaArrowRight className='inline' /> </button>
+                    <button onClick={() => navigateTo('/all-properties')} className='text-teal-600 flex items-center font-bold cursor-pointer transition duration-300 hover:text-teal-500 hover:scale-105'>View All &nbsp; <FaArrowRight className='inline' /> </button>
                 </div>
             </div>
 
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15 justify-items-center mt-15'>
+            <div className={`${isError ? 'flex flex-col justify-center items-center my-15' : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15 justify-items-center mt-15 '}`}>
+                <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
+                <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
+                    Try Again to Load Properties
+                </button>
                 {
-                    // Array.from({ length: 8 }).map((_, index) => (
-                    //     <PropertyCard key={index} />
-                    // ))
-
-                    images.map(img => (
-                        <PropertyCard key={img.id} image={img.image} />
+                    
+                    featuredProperties?.data?.map(property => (
+                        <PropertyCard key={property._id} property={property} />
                     ))
                 }
             </div>

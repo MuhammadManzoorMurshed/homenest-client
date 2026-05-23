@@ -1,7 +1,9 @@
 import React, { forwardRef } from 'react';
 import UpdatePropertyForm from '../update-property-form/UpdatePropertyForm';
 
-const UpdatePropertyModal = forwardRef((props,ref) => {
+const UpdatePropertyModal = forwardRef((props, ref) => {
+    const { myProperty, modalRef } = props;
+
     return (
         <dialog ref={ref} className="modal">
             <div className="modal-box sm:p-8 max-h-11/12 max-w-175 bg-teal-100">
@@ -11,7 +13,7 @@ const UpdatePropertyModal = forwardRef((props,ref) => {
                 </div>
 
                 <div className="modal-actions flex-col justify-center mt-15">
-                    <UpdatePropertyForm />
+                    <UpdatePropertyForm myProperty={myProperty} modalRef={modalRef} />
                 </div>
             </div>
         </dialog>

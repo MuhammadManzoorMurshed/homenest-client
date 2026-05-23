@@ -73,7 +73,7 @@ const Navbar = () => {
                         }
                     </ul>
                 </div>
-                <div className='flex items-center gap-3 font-fredoka font-semibold text-2xl pl-0 cursor-pointer transition-all duration-100 hover:scale-95 hover:text-teal-700'>
+                <div onClick={() => navigateTo('/')} className='flex items-center gap-3 font-fredoka font-semibold text-2xl pl-0 cursor-pointer transition-all duration-100 hover:scale-95 hover:text-teal-700'>
                     <img className='w-8 h-8 hidden sm:block' src={logo} alt="" />
                     <a className="">Hom<span className='text-teal-700'>eN</span>est</a>
                 </div>
