@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import useAuth from '../../hooks/useContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -6,20 +6,10 @@ import MySwal from '../../lib/swal';
 
 const UpdatePropertyForm = ({ myProperty, modalRef }) => {
     const { user } = useAuth();
+    const formRef = useRef(null);
     const { _id, propertyName, description, propertyType, price, location, images } = myProperty || {};
     const { city, thana, area } = location || {};
-    const destructuredMyProperty = {
-        propertyName,
-        description,
-        propertyType,
-        price,
-        city,
-        thana,
-        area,
-        images,
-    }
-    myProperty = destructuredMyProperty;
-    const [updatedMyProperty, setUpdatedMyProperty] = useState(null);
+
     const queryClient = useQueryClient();
     const patchMutation = useMutation({
         mutationFn: async ({ id, updatedMyProperty }) => {
@@ -29,23 +19,9 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
         },
 
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['my-properties'],
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['properties'],
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['featured-properties'],
-            });
-
-            MySwal.fire({
-                icon: "success",
-                title: "Property Updated",
-                text: "Your property has been updated successfully!",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#0694a2",
-            })
+            queryClient.invalidateQueries({ queryKey: ['my-properties'] });
+            queryClient.invalidateQueries({ queryKey: ['properties'] });
+            queryClient.invalidateQueries({ queryKey: ['featured-properties'] });
         },
 
         onError: (error) => {
@@ -57,75 +33,99 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
                 confirmButtonColor: "#0694a2",
             });
         }
-    })
+    });
 
-    const handleFormChange = (e) => {
-        console.log("tagName:", e.target.tagName);
-        console.log("name:", e.target.name);
-        console.log("value:", e.target.value);
-        console.log("type:", e.target.type);
+    const handleUpdate = async () => {
+        const form = formRef.current;
+        if (!form) return;
 
-        const form = e.target;
-        // console.log("Form in handleFormChange: ", form);
-        let changedField = form.name;
-        let changedValue = form.value;
+        const formData = new FormData(form);
+        const currentValues = Object.fromEntries(formData.entries());
 
-        console.log("Changed field: ", changedField);
-        console.log("Changed value: ", changedValue);
+        const updatedData = {};
 
-        if (!changedField || !(changedField in myProperty)) {
-            console.log("Changed field is not valid: ", changedField);
-            return;
+        // Compare simple fields
+        if (currentValues.propertyName !== propertyName) updatedData.propertyName = currentValues.propertyName;
+        if (currentValues.description !== description) updatedData.description = currentValues.description;
+        if (currentValues.propertyType !== propertyType) updatedData.propertyType = currentValues.propertyType;
+
+        const currentPrice = Number(currentValues.price);
+        if (currentPrice !== price) updatedData.price = currentPrice;
+
+        // Compare images array
+        const currentImages = currentValues.images.split(',').map(img => img.trim()).filter(Boolean);
+        const originalImages = images || [];
+        if (JSON.stringify(currentImages) !== JSON.stringify(originalImages)) {
+            updatedData.images = currentImages;
         }
 
-        const isChangedProperty = myProperty[changedField].toString() !== changedValue ? true : false;
+        // Compare nested location fields
+        const locationChanges = {};
+        if (currentValues.city !== city) locationChanges.city = currentValues.city;
+        if (currentValues.thana !== thana) locationChanges.thana = currentValues.thana;
+        if (currentValues.area !== area) locationChanges.area = currentValues.area;
 
-        if (isChangedProperty) {
-            if (changedField === 'price') {
-                changedValue = Number(changedValue);
-            }
-
-            if (changedField === "images") {
-                const imagesArray = changedValue.split(',').map(image => image.trim());
-
-                changedValue = imagesArray;
-            }
-
-            if(changedField === "city" || changedField === "thana" || changedField === "area") {
-                changedField = `location.${changedField}`;
-            }
-
-            setUpdatedMyProperty(prev => ({
-                ...prev,
-                [changedField]: changedValue,
-            }));
+        if (Object.keys(locationChanges).length > 0) {
+            updatedData.location = {
+                city, thana, area, // Original values as base
+                ...locationChanges
+            };
         }
-    }
 
-    const handleUpdate = () => {
-        if (updatedMyProperty) {
+        if (Object.keys(updatedData).length > 0) {
             patchMutation.mutate({
                 id: _id,
-                updatedMyProperty
+                updatedMyProperty: updatedData
             }, {
                 onSuccess: () => {
-                    setUpdatedMyProperty(null);
                     modalRef.current?.close();
-                },
-                onError: () => {
-                    setUpdatedMyProperty(null);
-                    modalRef.current?.close();
+                    
+                    // Show success alert AFTER modal closes so it doesn't get destroyed with the modal
+                    MySwal.fire({
+                        icon: "success",
+                        title: "Property Updated",
+                        text: "Your property has been updated successfully!",
+                        confirmButtonText: "OK",
+                        confirmButtonColor: "#0694a2",
+                    });
                 }
             });
-            console.log("Update button clicked. Updated My Property: ", updatedMyProperty);
-        }
-    }
+        } else {
+            // Blur active element to prevent ARIA focus errors when Swal opens
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
 
-    console.log("Updated My Property: ", updatedMyProperty);
+            const result = await MySwal.fire({
+                target: modalRef.current || document.body,
+                icon: "info",
+                title: "No Changes Detected",
+                text: "Please make changes to the form before updating.",
+                showCancelButton: true,
+                confirmButtonText: "Continue Editing",
+                confirmButtonColor: "#0694a2",
+                cancelButtonText: "Close",
+                cancelButtonColor: "#e3342f",
+            });
+
+            if (result.isDismissed) {
+                setTimeout(() => {
+                    modalRef.current?.close();
+                }, 100);
+            }
+        }
+    };
+
+    const handleCancel = () => {
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
+        modalRef.current?.close();
+    }
 
     return (
         <>
-            <form method="dialog" onBlur={handleFormChange}>
+            <form ref={formRef} method="dialog">
                 {/* if there is a button, it will close the modal */}
 
                 {/* Property Name */}
@@ -145,16 +145,6 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
                             <option value="apartment">Apartment</option>
                             <option value="house">House</option>
                             <option value="flat">Flat</option>
-
-                            {/* <option value="commercialspace">Commercial Space</option>
-                            <option value="warehouse">Warehouse</option>
-                            <option value="room">Room</option>
-                            <option value="condo">Sublet</option>
-                            <option value="condo">Office</option>
-                            <option value="condo">Shop</option>
-                            <option value="condo">Land</option>
-                            <option value="condo">Hostel</option>
-                            <option value="condo">Villa</option> */}
                         </select>
                     </div>
 
@@ -202,8 +192,15 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
                 </div>
 
                 <div className='space-x-2 flex justify-end'>
-                    <button onClick={handleUpdate} type="button" className=" w-30 btn bg-teal-600 text-white transition duration-300 hover:bg-teal-700 hover:scale-y-105">Update</button>
-                    <button onClick={() => modalRef.current?.close()} type="button" className="w-30 btn bg-teal-300 transition duration-300 hover:bg-teal-400 hover:scale-y-105">Cancel</button>
+                    <button
+                        onClick={handleUpdate}
+                        type="button"
+                        disabled={patchMutation.isPending}
+                        className="w-30 btn bg-teal-600 text-white transition duration-300 hover:bg-teal-700 hover:scale-y-105 disabled:bg-gray-400"
+                    >
+                        {patchMutation.isPending ? "Updating..." : "Update"}
+                    </button>
+                    <button onClick={handleCancel} type="button" className="w-30 btn bg-teal-300 transition duration-300 hover:bg-teal-400 hover:scale-y-105">Cancel</button>
                 </div>
             </form>
         </>

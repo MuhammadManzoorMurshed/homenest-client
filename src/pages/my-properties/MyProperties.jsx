@@ -18,13 +18,6 @@ const MyProperties = () => {
         }
     })
 
-    // console.log("My properties: ", myProperties);
-    // console.log("User in My Properties: ", user);
-
-    // if(isLoading) {
-    //     return <Loading />
-    // }
-
     useEffect(() => {
         isError && (
             MySwal.fire({
@@ -36,20 +29,6 @@ const MyProperties = () => {
             })
         )
     }, [error, isError]);
-
-    // const myProperties = myProperties?.filter(property => property.email === user?.email);
-    console.log("Filtered My Properties: ", myProperties);
-    
-    // const images = [
-    //     {id: 1, image: '/1.png'},
-    //     {id: 2, image: '/2.png'},
-    //     {id: 3, image: '/3.png'},
-    //     {id: 4, image: '/4.png'},
-    //     {id: 5, image: '/5.png'},
-    //     {id: 6, image: '/6.png'},
-    //     {id: 7, image: '/7.png'},
-    //     {id: 8, image: '/8.png'},
-    // ];
 
     return (
         <div className='max-w-7xl mx-auto my-15'>
