@@ -29,22 +29,6 @@ const AllProperties = () => {
         })
     }
 
-    // console.log("All properties: ", allProperties);
-    // console.log("Loading: ", isLoading);
-    // console.log("Error: ", error);
-    // console.log("Is Error: ", isError);
-
-    // const images = [
-    //     {id: 1, image: '/1.png'},
-    //     {id: 2, image: '/2.png'},
-    //     {id: 3, image: '/3.png'},
-    //     {id: 4, image: '/4.png'},
-    //     {id: 5, image: '/5.png'},
-    //     {id: 6, image: '/6.png'},
-    //     {id: 7, image: '/7.png'},
-    //     {id: 8, image: '/8.png'},
-    // ];
-
     return (
         <div className='max-w-7xl mx-auto my-15'>
 
@@ -63,7 +47,7 @@ const AllProperties = () => {
                 isLoading && <Loading />
             }
 
-            <div className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 justify-items-center'}`}>
+            <div className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : 'grid grid-cols-1 sm:grid-cols-2 [@media(min-width:60rem)]:grid-cols-3 gap-5 justify-items-center'}`}>
                 <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
                 <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
                     Try Again to Load Properties

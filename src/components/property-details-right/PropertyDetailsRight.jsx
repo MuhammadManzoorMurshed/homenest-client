@@ -2,13 +2,19 @@ import React from 'react';
 import { FiMapPin } from 'react-icons/fi';
 import { Bath, Bed, Map, RulerDimensionLine } from 'lucide-react';
 import SimilarPropertyCard from './similar-property-card/SimilarPropertyCard';
-const PropertyDetailsRight = () => {
+import { format } from 'date-fns';
+
+const PropertyDetailsRight = ({ property }) => {
+    const { propertyName, location, price, createdAt } = property || {};
+    const date = createdAt;
+    const formattedDate = format(new Date(date), "dd MMM yyyy");
+
     return (
         <div className='flex-1'>
             <div className='mt-15 md:mt-0 shadow-sm p-5 rounded-lg bg-teal-50'>
-                <h1 className='text-teal-600 font-fredoka font-semibold text-3xl'>Azure Horizon Estate</h1>
-                <p><FiMapPin className='inline text-teal-700' /> <span>Beverly Hills, CA 90210</span></p>
-                <h2 className='my-5 text-3xl font-semibold'>$<span>4,250,000</span></h2>
+                <h1 className='text-teal-600 font-fredoka font-semibold text-3xl'>{propertyName}</h1>
+                <p><FiMapPin className='inline text-teal-700' /> <span>{location.city}</span>, <span>{location.thana}</span>, <span>{location.area}</span></p>
+                <h2 className='my-5 text-3xl font-semibold'>$<span>{price.toLocaleString()}</span></h2>
 
                 <hr className='text-gray-300 border' />
 
@@ -32,7 +38,7 @@ const PropertyDetailsRight = () => {
                 <button className='w-full mt-5 bg-teal-300 transition duration-300 hover:bg-teal-400 hover:scale-y-105 text-teal-600 hover:text-teal-900 font-bold py-2 px-4 rounded'>
                     Schedule Tour
                 </button>
-                <p className='mt-5 text-sm text-gray-600 text-center'>Listed on: <span>December 15, 2025</span></p>
+                <p className='mt-5 text-sm text-gray-600 text-center'>Listed on: <span>{formattedDate}</span></p>
             </div>
 
             <div className='p-6 mt-15 bg-teal-100 rounded-lg'>

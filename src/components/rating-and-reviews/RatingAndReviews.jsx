@@ -1,8 +1,35 @@
 import React from 'react';
 import { FaStar } from "react-icons/fa";
 import ReviewerCard from './reviewer-card/ReviewerCard';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import MySwal from '../../lib/swal';
+import Loading from '../loading/Loading';
 
 const RatingAndReviews = () => {
+    const { id } = useParams();
+    const { data: reviews, isLoading, isError, error } = useQuery({
+        queryKey: ['reviews', id],
+        queryFn: async () => {
+            return await axios.get(`http://localhost:3000/api/v1/get-reviews/${id}`).then(res => res.data);
+        }
+    })
+
+    if(isError) {
+        MySwal.fire({
+            icon: "error",
+            title: error?.message || "Error",
+            text: error?.response?.data?.message || "Faild to load review details. Please try again.",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0694a2"
+        })
+    }
+
+    if(isLoading) {
+        return <Loading />
+    }
+
     return (
         <section className='mt-15'>
             <div className='flex justify-between items-start gap-5 mb-5'>
@@ -16,8 +43,8 @@ const RatingAndReviews = () => {
 
             <div className='space-y-5'>
                 {
-                    Array.from({ length: 3 }).map((_, index) => (
-                        <ReviewerCard key={index} />
+                    reviews.data.map((review, index) => (
+                        <ReviewerCard key={index} review={review} />
                     ))
                 }
             </div>

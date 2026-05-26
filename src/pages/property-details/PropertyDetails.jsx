@@ -4,17 +4,55 @@ import PropertyDetailsRight from '../../components/property-details-right/Proper
 import { MdVerified } from "react-icons/md";
 import RatingAndReviews from '../../components/rating-and-reviews/RatingAndReviews';
 import ShareExperience from '../../components/share-experience/ShareExperience';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import MySwal from '../../lib/swal';
+import Loading from '../../components/loading/Loading';
+import { useQuery } from '@tanstack/react-query';
 
 const PropertyDetails = () => {
+    const { id } = useParams();
+    const { data: propertyData, isLoading, error, isError } = useQuery({
+        queryKey: ['property-details', id],
+        queryFn: async () => {
+            return await axios.get(`http://localhost:3000/api/v1/get-property-details/${id}`).then(res => res.data);
+        }
+    })
+
+    const { listingPurpose, images, description, contact, propertyName, location, price, createdAt } = propertyData?.data || {};
+
+    const rightSideInfo = {
+        propertyName,
+        location,
+        price,
+        createdAt
+    }
+
+    console.log("Property details: ", propertyData);
+
+    if (isError) {
+        MySwal.fire({
+            icon: "error",
+            title: error.message || "Error",
+            text: "Failed to load property details. Please try again.",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0694a2",
+        })
+    }
+
+    if (isLoading) {
+        return <Loading />
+    }
+
     return (
         <>
             <div className='max-w-7xl mx-auto my-15 md:flex md:justify-between md:items-start gap-10'>
                 {/* Left Side */}
                 <div className='flex-2'>
                     <div className='rounded-xl overflow-hidden relative'>
-                        <img className='w-full h-auto' src="/1.png" alt="" />
+                        <img className='w-full h-auto' src={images?.[0] || "/1.png"} alt="" />
                         <div className='flex gap-3 absolute top-4 left-4'>
-                            <p className='bg-teal-700 font-bold text-white text-xs px-3 py-1 rounded-full'>For Sale</p>
+                            <p className='bg-teal-700 font-bold text-white text-xs px-3 py-1 rounded-full'>{listingPurpose == 'rent' ? 'For Rent' : 'For Sale'}</p>
                             <p className='bg-teal-300 font-bold text-teal-900 text-xs px-3 py-1 rounded-full'>Featured</p>
                         </div>
                     </div>
@@ -22,7 +60,7 @@ const PropertyDetails = () => {
                     <div className='mt-15'>
                         <h2 className='text-teal-900 font-fredoka font-normal text-2xl'>Property Description</h2>
                         <div className='mt-5 text-gray-600 text-base text-justify flex flex-col gap-4'>
-                            <p>Experience the pinnacle of coastal luxury living at Azure Horizon Estate. This meticulously designed architectural masterpiece offers an unparalleled blend of modern sophistication and warm, inviting spaces. Every room has been oriented to maximize natural light and capture breathtaking views of the Pacific coastline.</p>
+                            <p>{description}</p>
                             <p>The gourmet chef's kitchen features state-of-the-art appliances and a generous marble island, flowing seamlessly into the open-concept living area. Outside, the infinity-edge pool creates a seamless visual transition to the ocean, complemented by an expansive hardwood deck perfect for entertaining.</p>
                         </div>
                     </div>
@@ -47,8 +85,8 @@ const PropertyDetails = () => {
                             <img className='size-20 object-cover rounded-full mb-3 sm:mb-0' src="/3.png" alt="" />
 
                             <div>
-                                <h3 className='font-semibold text-xl'>Julian Sterling</h3>
-                                <p className='text-gray-600 text-sm my-1'>julian.sterling@homenest.com</p>
+                                <h3 className='font-semibold text-xl'>{contact?.name || "Unknown"}</h3>
+                                <p className='text-gray-600 text-sm my-1'>{contact?.email || "Email not available"}</p>
                                 <h4 className='text-teal-700 font-bold text-sm'><MdVerified className='inline w-4 h-4 mr-1' /> Verified Premier Partner</h4>
                             </div>
                         </div>
@@ -60,7 +98,7 @@ const PropertyDetails = () => {
                 </div>
 
                 {/* Right Side */}
-                <PropertyDetailsRight />
+                <PropertyDetailsRight property={rightSideInfo} />
             </div>
         </>
     );

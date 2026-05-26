@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const PropertyCard = ({ property }) => {
     const navigateTo = useNavigate();
-    const { firstImage, propertyName, city, thana, listingPurpose, propertyType, price, name } = property || {};
+    const {_id, firstImage, propertyName, city, thana, listingPurpose, propertyType, price, name } = property || {};
 
     return (
         <div className="card bg-teal-50 max-w-96 xl:w-96 shadow-sm hover:shadow-lg transition-shadow duration-300 rounded-lg relative group">
@@ -21,14 +21,14 @@ const PropertyCard = ({ property }) => {
 
                 <p className='text-gray-500 text-xs'><FiMapPin className='inline' /><span> {city}</span>, <span>{thana}</span></p>
 
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center gap-2'>
                     <p className='text-xs bg-teal-200 text-teal-900 px-3 py-1 rounded-full'>{propertyType == 'apartment' ? 'Apartment' : propertyType == 'house' ? 'House' : propertyType == 'flat' ? 'Flat' : 'N/A'}</p>
                     <p className='text-xs text-gray-500 outline outline-teal-200  px-2 py-1 rounded-md'>Posted by: <span>{name}</span></p>
                 </div>
 
                 <div className="card-actions justify-between gap-2 items-center mt-4">
                     <p className="text-base text-teal-600 outline outline-teal-600 rounded-xl px-3 py-1.5">$ <span>{price}</span></p>
-                    <button onClick={() => navigateTo('/properties/1')} className="btn flex-1 font-fredoka text-base bg-teal-500 text-white transition duration-300 hover:scale-x-95">See Details</button>
+                    <button onClick={() => navigateTo(`/properties/${_id}`)} className="btn flex-1 font-fredoka text-base bg-teal-500 text-white transition duration-300 hover:scale-x-95">See Details</button>
                 </div>
             </div>
         </div>
