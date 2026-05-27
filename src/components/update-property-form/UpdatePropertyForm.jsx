@@ -3,10 +3,12 @@ import useAuth from '../../hooks/useContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import MySwal from '../../lib/swal';
+import { useNavigate } from 'react-router-dom';
 
 const UpdatePropertyForm = ({ myProperty, modalRef }) => {
     const { user } = useAuth();
     const formRef = useRef(null);
+    const navigateTo = useNavigate();
     const { _id, propertyName, description, propertyType, price, location, images } = myProperty || {};
     const { city, thana, area } = location || {};
 
@@ -22,6 +24,8 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
             queryClient.invalidateQueries({ queryKey: ['my-properties'] });
             queryClient.invalidateQueries({ queryKey: ['properties'] });
             queryClient.invalidateQueries({ queryKey: ['featured-properties'] });
+
+            navigateTo(`/properties/${_id}`);
         },
 
         onError: (error) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropertyCard from '../../components/property-card/PropertyCard';
 import Pagination from '../../components/pagination/Pagination';
 import Search from '../../components/search/Search';
@@ -9,15 +9,29 @@ import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet-async';
 
 const AllProperties = () => {
-    const { data: allProperties, isLoading, error, isError, refetch } = useQuery({
-        queryKey: ['all-properties'],
+    const [ searchText, setSearchText ] = useState("");
+    const [ sortField, setSortField ] = useState("newest");
+    const { data: allProperties, isLoading, isFetching, error, isError, refetch } = useQuery({
+        queryKey: ['all-properties', searchText,  sortField],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:3000/api/v1/get-properties');
+            const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}`);
 
             return res.data;
         },
         staleTime: 5000, // 5 seconds
     })
+
+    useEffect(() => {
+        if (allProperties?.data && (allProperties.data.length === 0)) {
+            MySwal.fire({
+                icon: "info",
+                title: "No Properties Found!",
+                text: "Try adjusting your search or filters.",
+                confirmButtonText: "OK",
+                confirmButtonColor: "#0694a2"
+            })
+        }
+    }, [allProperties])
 
     if(isError) {
         MySwal.fire({
@@ -28,6 +42,8 @@ const AllProperties = () => {
             confirmButtonColor: "#0694a2",
         })
     }
+
+    console.log(searchText);
 
     return (
         <div className='max-w-7xl mx-auto my-15'>
@@ -41,10 +57,10 @@ const AllProperties = () => {
                 <p className='font-medium text-md text-center mt-4'>Explore our curated selection of premium residences, from modern<span className='hidden sm:inline'><br /></span>urban lofts to sprawling suburban estates. Find the perfect place to call home.</p>
             </div>
 
-            <Search />
+            <Search setSearchText={setSearchText} setSortField={setSortField}/>
 
             {
-                isLoading && <Loading />
+                (isLoading || isFetching) && <Loading />
             }
 
             <div className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : 'grid grid-cols-1 sm:grid-cols-2 [@media(min-width:60rem)]:grid-cols-3 gap-5 justify-items-center'}`}>

@@ -2,8 +2,36 @@ import React from 'react';
 import RatingCard from '../../components/rating-card/RatingCard';
 import Pagination from '../../components/pagination/Pagination';
 import { Helmet } from 'react-helmet-async';
+import { useQuery } from '@tanstack/react-query';
+import useAuth from '../../hooks/useContext';
+import axios from 'axios';
+import Loading from '../../components/loading/Loading';
+import MySwal from '../../lib/swal';
 
 const MyRatings = () => {
+    const { user } = useAuth();
+    const { data: myRatings, isLoading, isError, error } = useQuery({
+        queryKey: ['my-ratings', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axios.get(`http://localhost:3000/api/v1/get-my-ratings?email=${user?.email}`);
+
+            return res.data;
+        }
+    });
+
+    if(isError) {
+        MySwal.fire({
+            icon: "error", 
+            title: error?.message || "Error",
+            text: error?.response?.data?.message || "Faild to load reviews. Please try again.",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#0694a2"
+        })
+    }
+
+    console.log("My Reviews: ", myRatings);
+
     return (
         <div className='max-w-7xl mx-auto my-15'>
 
@@ -28,10 +56,14 @@ const MyRatings = () => {
                 </div>
             </div>
 
+            {
+                isLoading && <Loading />
+            }
+
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
                 {
-                    Array.from({ length: 5 }).map((_, index) => (
-                        <RatingCard key={index} />
+                    myRatings?.data.map((myRating) => (
+                        <RatingCard key={myRating._id} myRating={myRating} />
                     ))
                 }
             </div>
