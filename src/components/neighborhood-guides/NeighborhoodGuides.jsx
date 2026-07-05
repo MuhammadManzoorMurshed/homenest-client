@@ -11,7 +11,7 @@ const NeighborhoodGuides = () => {
         <section className='max-w-7xl mx-auto my-15 sm:my-25'>
             <div className='[@media(min-width:32rem)]:flex [@media(min-width:32rem)]:justify-between [@media(min-width:32rem)]:items-end'>
                 <div className='text-right'>
-                    <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 text-left mb-10'>Neighborhood Guides</h2>
+                    <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left mb-10'>Neighborhood Guides</h2>
                 </div>
             </div>
 

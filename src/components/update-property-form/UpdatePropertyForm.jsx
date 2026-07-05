@@ -182,16 +182,16 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
                 <label className='label font-fredoka font-semibold text-lg mt-3 mb-2' htmlFor="images">Images</label>
                 <input className='input w-full border-0' type="text" name="images" id="images" placeholder='@ Enter image URLs separated by commas' defaultValue={images?.join(',')} />
 
-                <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-teal-50 p-5 rounded-md shadow-xs my-5'>
+                <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-teal-50 dark:bg-gray-800 p-5 rounded-md shadow-xs dark:shadow-gray-900/50 my-5'>
                     <div className='flex-1 flex flex-col gap-1'>
-                        <p className='font-bold text-sm text-gray-500'>Owner Name</p>
-                        <input className='focus:outline-0 font-bold text-base' type="text" name="ownerName" id="" value={user?.displayName} readOnly />
-                        <p className='text-[12px] text-teal-700'>NON-EDITABLE</p>
+                        <p className='font-bold text-sm text-gray-500 dark:text-gray-400'>Owner Name</p>
+                        <input className='focus:outline-0 font-bold text-base dark:text-gray-100 dark:bg-transparent' type="text" name="ownerName" id="" value={user?.displayName} readOnly />
+                        <p className='text-[12px] text-teal-700 dark:text-teal-400'>NON-EDITABLE</p>
                     </div>
                     <div className='flex-1 flex flex-col gap-1'>
-                        <p className='font-bold text-sm text-gray-500'>Owner Email</p>
-                        <input className='focus:outline-0 font-bold text-base' type="email" name="ownerEmail" id="" value={user?.email} readOnly />
-                        <p className='text-[12px] text-teal-700'>NON-EDITABLE</p>
+                        <p className='font-bold text-sm text-gray-500 dark:text-gray-400'>Owner Email</p>
+                        <input className='focus:outline-0 font-bold text-base dark:text-gray-100 dark:bg-transparent' type="email" name="ownerEmail" id="" value={user?.email} readOnly />
+                        <p className='text-[12px] text-teal-700 dark:text-teal-400'>NON-EDITABLE</p>
                     </div>
                 </div>
 
@@ -204,7 +204,7 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
                     >
                         {patchMutation.isPending ? "Updating..." : "Update"}
                     </button>
-                    <button onClick={handleCancel} type="button" className="w-30 btn bg-teal-300 transition duration-300 hover:bg-teal-400 hover:scale-y-105">Cancel</button>
+                    <button onClick={handleCancel} type="button" className="w-30 btn bg-teal-300 dark:bg-teal-700 dark:text-white transition duration-300 hover:bg-teal-400 dark:hover:bg-teal-600 hover:scale-y-105">Cancel</button>
                 </div>
             </form>
         </>

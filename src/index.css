@@ -1,4 +1,7 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @import "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
@@ -20,12 +23,13 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  @apply text-gray-900 dark:text-gray-200;
 }
 
 .active {
-  @apply bg-teal-300 text-teal-900;
+  @apply bg-teal-300 text-teal-900 dark:bg-teal-700 dark:text-white;
 }
 
 .pending {
-  @apply bg-teal-400;
+  @apply bg-teal-400 dark:bg-teal-800;
 }

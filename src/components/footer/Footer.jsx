@@ -14,11 +14,11 @@ import logo from './../../assets/logo.svg';
 
 export function Footer() {
     return (
-        <FlowbiteFooter container className="rounded-bl-none rounded-br-none">
+        <FlowbiteFooter container className="rounded-bl-none rounded-br-none dark:bg-gray-900">
             <div className="w-full max-w-360 mx-auto">
                 <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
                     <div className="text-6xl">
-                        <FooterBrand className="font-fredoka font-semibold cursor-pointer transition-all duration-100 hover:scale-95 hover:text-teal-700"
+                        <FooterBrand className="font-fredoka font-semibold cursor-pointer transition-all duration-100 hover:scale-95 hover:text-teal-700 dark:hover:text-teal-400 dark:text-gray-100"
                             href="https://flowbite.com"
                             src={logo}
                             alt="Flowbite Logo"

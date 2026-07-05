@@ -85,8 +85,8 @@ const Signin = () => {
     }
 
     return (
-        <div className='card my-15 bg-teal-100 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
-            <h1 className='font-fredoka font-semibold text-4xl text-teal-900 text-center mb-10'>Login Now!</h1>
+        <div className='card my-15 bg-teal-100 dark:bg-gray-800 dark:text-gray-200 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
+            <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-center mb-10'>Login Now!</h1>
             <div className='card-body px-4'>
                 <form onSubmit={handleLogin} className="w-full">
                     <fieldset className="fieldset">
@@ -119,10 +119,10 @@ const Signin = () => {
 
                 <div className='text-center font-semibold text-base mt-6'>
                     <span>Don't have an account?</span>
-                    <span> Click to <Link to={'/authentication/signup'} className='inline-block font-bold text-teal-500 transform hover:text-teal-700 transition-transform duration-300'>register</Link></span>
+                    <span> Click to <Link to={'/authentication/signup'} className='inline-block font-bold text-teal-500 dark:text-teal-400 transform hover:text-teal-700 dark:hover:text-teal-300 transition-transform duration-300'>register</Link></span>
                 </div>
 
-                <button onClick={() => handleSignInWithGoogle()} className="btn py-6 mt-6 mx-auto bg-white text-black border-[#e5e5e5] transform hover:scale-x-95 transition-transform duration-300 w-full">
+                <button onClick={() => handleSignInWithGoogle()} className="btn py-6 mt-6 mx-auto bg-white dark:bg-gray-700 text-black dark:text-white border-[#e5e5e5] dark:border-gray-600 transform hover:scale-x-95 transition-transform duration-300 w-full">
                     <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
                     Login with Google
                 </button>

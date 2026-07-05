@@ -138,7 +138,7 @@ const AddProperties = () => {
     }
 
     return (
-        <div className='mx-auto rounded-lg bg-teal-100 my-15 px-4 py-15 sm:py-20 sm:px-10 sm:w-150 md:w-175'>
+        <div className='mx-auto rounded-lg bg-teal-100 dark:bg-gray-800 my-15 px-4 py-15 sm:py-20 sm:px-10 sm:w-150 md:w-175'>
 
             <Helmet>
                 <title>HomeNest | Add Property</title>
@@ -146,8 +146,8 @@ const AddProperties = () => {
 
             <form className='flex flex-col' action="" onSubmit={handleFormSubmit}>
                 <div className='text-center mb-15'>
-                    <h1 className='font-fredoka font-semibold text-4xl text-teal-900'>Add New Property</h1>
-                    <p className='font-medium text-lg text-teal-500 mt-4'>Complete the form below to publish a new property listing.</p>
+                    <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300'>Add New Property</h1>
+                    <p className='font-medium text-lg text-teal-500 dark:text-teal-400 mt-4'>Complete the form below to publish a new property listing.</p>
                 </div>
 
                 {/* Property Name */}

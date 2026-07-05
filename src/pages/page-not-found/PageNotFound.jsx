@@ -12,7 +12,7 @@ const PageNotFound = () => {
                 <title>HomeNest | Page Not Found</title>
             </Helmet>
 
-            <div className='flex justify-center items-center h-screen'>
+            <div className='flex justify-center items-center h-screen dark:bg-gray-950'>
                 <div className='flex flex-col justify-center items-center gap-6'>
                     <img className='w-96 h-96 object-cover rounded-2xl' src={notFoundImage} alt="Page Not Found" />
                     <button onClick={() => navigateTo('/')} className='bg-blue-500 text-white py-2 px-4 rounded transition duration-300 hover:scale-105 hover:bg-blue-700 cursor-pointer'>

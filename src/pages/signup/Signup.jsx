@@ -118,8 +118,8 @@ const Signup = () => {
     }
 
     return (
-        <div className='card my-15 bg-teal-100 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
-            <h1 className='font-fredoka font-semibold text-4xl text-teal-900 text-center mb-10'>Register Now!</h1>
+        <div className='card my-15 bg-teal-100 dark:bg-gray-800 dark:text-teal-100 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
+            <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-center mb-10'>Register Now!</h1>
             <div className='card-body px-4'>
                 <form onSubmit={handleRegister} className="w-full">
                     <fieldset className="fieldset">
@@ -199,12 +199,12 @@ const Signup = () => {
                         </div>
 
                         {/* Register Button */}
-                        <button className="btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0 transform hover:scale-y-105 transition-transform duration-300">Register</button>
+                        <button className="btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 dark:bg-teal-600 border-0 transform hover:scale-y-105 transition-transform duration-300">Register</button>
                     </fieldset>
                 </form>
                 <div className='text-center font-semibold text-base mt-6'>
                     <span>Already Registered?</span>
-                    <span> Click to <Link to={'/authentication/signin'} className='font-bold text-teal-500 transform hover:text-teal-700 transition-transform duration-300'>login</Link></span>
+                    <span> Click to <Link to={'/authentication/signin'} className='font-bold text-teal-500 dark:text-teal-400 transform hover:text-teal-700 dark:hover:text-teal-300 transition-transform duration-300'>login</Link></span>
                 </div>
             </div>
         </div>

@@ -77,9 +77,9 @@ const ShareExperience = () => {
 
     return (
         <section className='mt-15'>
-            <h2 className='text-teal-900 font-fredoka font-normal text-2xl'>Share Your Experience</h2>
-            <p className='mt-5 text-xs text-gray-700 font-semibold mb-1'>Select Star To Give Rating</p>
-            <div className='flex gap-1 text-teal-700'>
+            <h2 className='text-teal-900 dark:text-teal-300 font-fredoka font-normal text-2xl'>Share Your Experience</h2>
+            <p className='mt-5 text-xs text-gray-700 dark:text-gray-400 font-semibold mb-1'>Select Star To Give Rating</p>
+            <div className='flex gap-1 text-teal-700 dark:text-teal-400'>
                 {/* <MdOutlineStarRate className='size-5'/>
                 <MdOutlineStarRate className='size-5'/>
                 <MdOutlineStarRate className='size-5'/>
@@ -97,21 +97,21 @@ const ShareExperience = () => {
                                 ...reviewData,
                                 rating: star
                             })}
-                            className={`transition duration-200 ${star <= (hover || reviewData.rating) ? 'text-teal-700' : 'text-gray-300'}`}
+                            className={`transition duration-200 ${star <= (hover || reviewData.rating) ? 'text-teal-700 dark:text-teal-400' : 'text-gray-300 dark:text-gray-600'}`}
                         >
                             <MdOutlineStarRate className="size-5 pointer-events-none" />
                         </button>
                     ))
                 }
             </div>
-            <p className='mt-5 text-xs text-gray-700 font-semibold mb-1'>Your Review</p>
+            <p className='mt-5 text-xs text-gray-700 dark:text-gray-400 font-semibold mb-1'>Your Review</p>
             <textarea
                 value={reviewData.comment}
                 onChange={(e) => setReviewData({
                     ...reviewData,
                     comment: e.target.value,
                 })}
-                className='w-full p-3 border rounded-lg placeholder:text-xs bg-white border-gray-200'
+                className='w-full p-3 border rounded-lg placeholder:text-xs bg-white dark:bg-gray-800 dark:text-gray-100 border-gray-200 dark:border-gray-600'
                 rows="4"
                 placeholder='Tell us what you think about this property......'></textarea>
             <button onClick={handleReviewSubmit} className='mt-3 bg-teal-600 text-white font-bold py-2 px-4 rounded hover:bg-teal-700 transition duration-300 cursor-pointer'>Submit Review</button>

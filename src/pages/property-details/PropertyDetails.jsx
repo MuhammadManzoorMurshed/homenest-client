@@ -53,41 +53,41 @@ const PropertyDetails = () => {
                         <img className='w-full h-auto' src={images?.[0] || "/1.png"} alt="" />
                         <div className='flex gap-3 absolute top-4 left-4'>
                             <p className='bg-teal-700 font-bold text-white text-xs px-3 py-1 rounded-full'>{listingPurpose == 'rent' ? 'For Rent' : 'For Sale'}</p>
-                            <p className='bg-teal-300 font-bold text-teal-900 text-xs px-3 py-1 rounded-full'>Featured</p>
+                            <p className='bg-teal-300 dark:bg-teal-700 font-bold text-teal-900 dark:text-teal-100 text-xs px-3 py-1 rounded-full'>Featured</p>
                         </div>
                     </div>
 
                     <div className='mt-15'>
-                        <h2 className='text-teal-900 font-fredoka font-normal text-2xl'>Property Description</h2>
-                        <div className='mt-5 text-gray-600 text-base text-justify flex flex-col gap-4'>
+                        <h2 className='text-teal-900 dark:text-teal-300 font-fredoka font-normal text-2xl'>Property Description</h2>
+                        <div className='mt-5 text-gray-600 dark:text-gray-300 text-base text-justify flex flex-col gap-4'>
                             <p>{description}</p>
                             <p>The gourmet chef's kitchen features state-of-the-art appliances and a generous marble island, flowing seamlessly into the open-concept living area. Outside, the infinity-edge pool creates a seamless visual transition to the ocean, complemented by an expansive hardwood deck perfect for entertaining.</p>
                         </div>
                     </div>
 
-                    <div className='mt-15 p-6 sm:p-10 bg-teal-100 rounded-xl'>
-                        <h2 className='text-teal-900 font-fredoka font-normal text-2xl'>Key Features</h2>
-                        <ul className='text-sm text-gray-600 mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3'>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> Smart Home System</li>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> Wine Cellar</li>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> 3-Car Garage</li>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> Home Theater</li>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> Guest House</li>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> Solar Panels</li>
-                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 mr-1' /> Private beach access</li>
+                    <div className='mt-15 p-6 sm:p-10 bg-teal-100 dark:bg-gray-800 rounded-xl'>
+                        <h2 className='text-teal-900 dark:text-teal-300 font-fredoka font-normal text-2xl'>Key Features</h2>
+                        <ul className='text-sm text-gray-600 dark:text-gray-300 mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3'>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> Smart Home System</li>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> Wine Cellar</li>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> 3-Car Garage</li>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> Home Theater</li>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> Guest House</li>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> Solar Panels</li>
+                            <li><CircleCheckBig className='inline w-4 h-4 text-teal-700 dark:text-teal-400 mr-1' /> Private beach access</li>
                         </ul>
                     </div>
 
-                    <div className='mt-15 p-6 sm:p-10 bg-white rounded-xl'>
-                        <h2 className='text-teal-900 font-fredoka font-normal text-2xl'>Posted By</h2>
+                    <div className='mt-15 p-6 sm:p-10 bg-white dark:bg-gray-900 rounded-xl'>
+                        <h2 className='text-teal-900 dark:text-teal-300 font-fredoka font-normal text-2xl'>Posted By</h2>
                         <div className='mt-5 [@media(min-width:25rem)]:flex [@media(min-width:25rem)]:justify-start [@media(min-width:25rem)]:items-center [@media(min-width:25rem)]:gap-6'>
 
                             <img className='size-20 object-cover rounded-full mb-3 sm:mb-0' src="/3.png" alt="" />
 
                             <div>
-                                <h3 className='font-semibold text-xl'>{contact?.name || "Unknown"}</h3>
-                                <p className='text-gray-600 text-sm my-1'>{contact?.email || "Email not available"}</p>
-                                <h4 className='text-teal-700 font-bold text-sm'><MdVerified className='inline w-4 h-4 mr-1' /> Verified Premier Partner</h4>
+                                <h3 className='font-semibold text-xl dark:text-gray-100'>{contact?.name || "Unknown"}</h3>
+                                <p className='text-gray-600 dark:text-gray-400 text-sm my-1'>{contact?.email || "Email not available"}</p>
+                                <h4 className='text-teal-700 dark:text-teal-400 font-bold text-sm'><MdVerified className='inline w-4 h-4 mr-1' /> Verified Premier Partner</h4>
                             </div>
                         </div>
                     </div>

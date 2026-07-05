@@ -41,17 +41,17 @@ const MyRatings = () => {
 
             <div className='sm:flex sm:justify-between sm:items-center gap-6 mb-10'>
                 <div>
-                    <h1 className='font-fredoka font-semibold text-4xl text-teal-900 text-left'>My Ratings</h1>
-                    <p className='font-medium text-md text-left mt-4'>Here are the ratings you have given to various properties.</p>
+                    <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-left'>My Ratings</h1>
+                    <p className='font-medium text-md text-left mt-4 dark:text-gray-300'>Here are the ratings you have given to various properties.</p>
                 </div>
-                <div className='flex gap-10 mt-10 sm:mt-0 bg-teal-100 px-15 py-5 rounded-md justify-evenly items-center'>
+                <div className='flex gap-10 mt-10 sm:mt-0 bg-teal-100 dark:bg-gray-800 px-15 py-5 rounded-md justify-evenly items-center'>
                     <div className='flex flex-col justify-center items-center'>
-                        <p className='font-bold text-2xl text-teal-600'>12</p>
-                        <p className='text-sm text-gray-600'>Reviews</p>
+                        <p className='font-bold text-2xl text-teal-600 dark:text-teal-400'>12</p>
+                        <p className='text-sm text-gray-600 dark:text-gray-400'>Reviews</p>
                     </div>
                     <div className='flex flex-col justify-center items-center'>
-                        <p className='font-bold text-2xl text-teal-600'>4.8</p>
-                        <p className='text-sm text-gray-600'>Average Rating</p>
+                        <p className='font-bold text-2xl text-teal-600 dark:text-teal-400'>4.8</p>
+                        <p className='text-sm text-gray-600 dark:text-gray-400'>Average Rating</p>
                     </div>
                 </div>
             </div>

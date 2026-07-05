@@ -8,7 +8,7 @@ const RootLayout = () => {
     return (
         <div className=''>
             <header >
-                <div className='py-5 bg-teal-100 shadow-xs rounded-bl-2xl rounded-br-2xl'>
+                <div className='py-5 bg-teal-100 dark:bg-gray-800 shadow-xs dark:shadow-gray-900/50 rounded-bl-2xl rounded-br-2xl'>
                     <Navbar />
                 </div>
             </header>

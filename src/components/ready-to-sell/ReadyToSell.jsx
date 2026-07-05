@@ -2,7 +2,7 @@ import React from 'react';
 
 const ReadyToSell = () => {
     return (
-        <section className='max-w-7xl mx-auto my-15 sm:my-25 sm:pl-8 md:pl-15 lg:pl-18 bg-teal-500 rounded-md'>
+        <section className='max-w-7xl mx-auto my-15 sm:my-25 sm:pl-8 md:pl-15 lg:pl-18 bg-teal-500 dark:bg-teal-900 rounded-md'>
             <div className='sm:flex sm:justify-between sm:items-center sm:gap-4 md:gap-20 group'>
                 <div className='group-hover:scale-105 transition-transform duration-200 flex-1 px-3 pt-5 sm:px-0 sm:pt-0'>
                     <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-4xl text-teal-200 text-left'>Ready to Sell Your Property?</h2>

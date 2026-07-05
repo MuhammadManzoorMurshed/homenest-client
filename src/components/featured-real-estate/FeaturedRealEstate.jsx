@@ -47,12 +47,12 @@ const FeaturedRealEstate = () => {
         <section className='max-w-7xl mx-auto my-15 sm:my-25'>
             <div className='[@media(min-width:32rem)]:flex [@media(min-width:32rem)]:justify-between [@media(min-width:32rem)]:items-end'>
                 <div className='text-right'>
-                    <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 text-left'>Featured Real Estate</h2>
-                    <p className='font-medium text-[12px] [@media(min-width:32rem)]:text-base text-left mt-4'>Handpicked premium listings just for you</p>
+                    <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left'>Featured Real Estate</h2>
+                    <p className='font-medium text-[12px] [@media(min-width:32rem)]:text-base text-left mt-4 dark:text-gray-300'>Handpicked premium listings just for you</p>
                 </div>
 
                 <div className='flex justify-end mt-5 [@media(min-width:32rem)]:mt-0'>
-                    <button onClick={() => navigateTo('/all-properties')} className='text-teal-600 flex items-center font-bold cursor-pointer transition duration-300 hover:text-teal-500 hover:scale-105'>View All &nbsp; <FaArrowRight className='inline' /> </button>
+                    <button onClick={() => navigateTo('/all-properties')} className='text-teal-600 dark:text-teal-400 flex items-center font-bold cursor-pointer transition duration-300 hover:text-teal-500 dark:hover:text-teal-300 hover:scale-105'>View All &nbsp; <FaArrowRight className='inline' /> </button>
                 </div>
             </div>
 

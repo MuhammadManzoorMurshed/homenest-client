@@ -8,14 +8,14 @@ const RatingCard = ({ myRating }) => {
     const formattedDate = format(new Date(date), "dd MMM yyyy"); 
     
     return (
-        <div className='group h-125 sm:h-60 sm:flex sm:justify-between sm:items-center gap-5 bg-white rounded-lg overflow-hidden shadow-xs sm:pr-5'>
+        <div className='group h-125 sm:h-60 sm:flex sm:justify-between sm:items-center gap-5 bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-xs dark:shadow-gray-900/50 sm:pr-5'>
             <img className='group-hover:scale-105 transition-transform duration-300 flex-1 h-1/2 w-full object-cover sm:size-full block sm:hidden' src={images[0]} alt="" />
             <div className='flex-2 px-3 py-5'>
                 
                 <div className='flex justify-start items-end gap-6'>
                     <img className='group-hover:scale-105 transition-transform duration-300  h-24 w-32 object-cover rounded-lg hidden sm:block' src={images[0]} alt="" />
                     <div>
-                        <h3 className='font-normal text-lg [@media(min-width:25rem)]:text-xl text-teal-600'>{propertyName}</h3>
+                        <h3 className='font-normal text-lg [@media(min-width:25rem)]:text-xl text-teal-600 dark:text-teal-400'>{propertyName}</h3>
                         <div className='flex gap-1 mt-1'>
                             {
                                 [1, 2, 3, 4, 5].map(star => {
@@ -32,21 +32,21 @@ const RatingCard = ({ myRating }) => {
                         </div>
                     </div>
                 </div>
-                <p className='mt-5 text-sm text-gray-600 text-justify'>{comment.slice(0, 150)}...</p>
-                <hr className='my-5 text-gray-300' />
+                <p className='mt-5 text-sm text-gray-600 dark:text-gray-300 text-justify'>{comment.slice(0, 150)}...</p>
+                <hr className='my-5 text-gray-300 dark:border-gray-700 border' />
 
                 <div className='flex justify-between items-center'>
                     <div className='flex justify-start items-center gap-4'>
-                        <div className='bg-teal-300 rounded-full'>
+                        <div className='bg-teal-300 dark:bg-teal-700 rounded-full'>
                             {/* <p className='font-semibold text-xs text-teal-600'>JD</p> */}
                             <img className='size-6 rounded-full' src={userPhoto} alt="User Photo" />
                         </div>
-                        <p className='font-semibold text-sm'>{userName} (You)</p>
+                        <p className='font-semibold text-sm dark:text-gray-200'>{userName} (You)</p>
                     </div>
                     <div>
-                        <p className='text-xs text-gray-500 hidden [@media(min-width:25rem)]:block'>{formattedDate}</p>
+                        <p className='text-xs text-gray-500 dark:text-gray-400 hidden [@media(min-width:25rem)]:block'>{formattedDate}</p>
                     </div>
-                    <button className='transform-border hover:border duration-200 hover:px-3 hover:py-1 rounded-md text-teal-600 hover:text-teal-700 cursor-pointer'>Edit Review</button>
+                    <button className='transform-border hover:border duration-200 hover:px-3 hover:py-1 rounded-md text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 cursor-pointer'>Edit Review</button>
                 </div>
             </div>
         </div>
