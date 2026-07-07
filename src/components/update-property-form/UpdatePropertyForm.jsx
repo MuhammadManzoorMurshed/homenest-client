@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import useAuth from '../../hooks/useContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import MySwal from '../../lib/swal';
 import { useNavigate } from 'react-router-dom';
+import axiosSecure from '../../lib/axiosSecure';
 
 const UpdatePropertyForm = ({ myProperty, modalRef }) => {
     const { user } = useAuth();
@@ -15,7 +15,7 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
     const queryClient = useQueryClient();
     const patchMutation = useMutation({
         mutationFn: async ({ id, updatedMyProperty }) => {
-            const res = await axios.patch(`http://localhost:3000/api/v1/update-my-property/${id}`, updatedMyProperty);
+            const res = await axiosSecure.patch(`/update-my-property/${id}`, updatedMyProperty);
 
             return res.data;
         },
@@ -83,7 +83,7 @@ const UpdatePropertyForm = ({ myProperty, modalRef }) => {
             }, {
                 onSuccess: () => {
                     modalRef.current?.close();
-                    
+
                     // Show success alert AFTER modal closes so it doesn't get destroyed with the modal
                     MySwal.fire({
                         icon: "success",

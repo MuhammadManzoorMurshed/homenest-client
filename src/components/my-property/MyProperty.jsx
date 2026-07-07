@@ -4,30 +4,30 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import UpdatePropertyModal from '../update-property-modal/UpdatePropertyModal';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import MySwal from '../../lib/swal';
+import axiosSecure from '../../lib/axiosSecure';
 
 const MyProperty = ({ myProperty }) => {
     const queryClient = useQueryClient();
     const modalRef = useRef(null);
     const navigateTo = useNavigate();
-    const {_id, images, propertyName, location, listingPurpose, price, addedByEmail } = myProperty || {};
+    const { _id, images, propertyName, location, listingPurpose, price, addedByEmail } = myProperty || {};
 
     const deleteMutation = useMutation({
         mutationFn: async () => {
-            const res = await axios.delete(`http://localhost:3000/api/v1/delete-my-property/${_id}`, {
+            const res = await axiosSecure.delete(`/delete-my-property/${_id}`, {
                 params: {
                     email: addedByEmail
                 }
             });
 
             return res.data;
-        },  
-        
+        },
+
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ['my-properties']});
-            queryClient.invalidateQueries({queryKey: ['properties']});
-            queryClient.invalidateQueries({ queryKey: ['featured-properties']});
+            queryClient.invalidateQueries({ queryKey: ['my-properties'] });
+            queryClient.invalidateQueries({ queryKey: ['properties'] });
+            queryClient.invalidateQueries({ queryKey: ['featured-properties'] });
 
             MySwal.fire({
                 icon: "success",
@@ -40,7 +40,7 @@ const MyProperty = ({ myProperty }) => {
     })
 
     const handleDelete = async () => {
-        if(document.activeElement instanceof HTMLElement) {
+        if (document.activeElement instanceof HTMLElement) {
             document.activeElement.blur();
         }
 
@@ -55,7 +55,7 @@ const MyProperty = ({ myProperty }) => {
             confirmButtonColor: "#ef4444",
         });
 
-        if(result.isConfirmed) {
+        if (result.isConfirmed) {
             deleteMutation.mutate(_id);
         }
     }
@@ -74,7 +74,7 @@ const MyProperty = ({ myProperty }) => {
 
                 <div className='flex justify-between gap-4 items-center'>
                     <p className="text-xl dark:text-gray-100">$ <span>{price?.toLocaleString()}</span></p>
-                    <button 
+                    <button
                         className="bg-teal-50 dark:bg-transparent font-fredoka text-xl cursor-pointer text-teal-600 dark:text-teal-400 transition duration-300 hover:underline hover:scale-105"
                         onClick={() => navigateTo(`/properties/${_id}`)}
                     >

@@ -3,16 +3,16 @@ import MySwal from '../../lib/swal';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useContext';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
+import axiosSecure from '../../lib/axiosSecure';
 
 const AddProperties = () => {
-    const {user} = useAuth();
+    const { user } = useAuth();
     const navigateTo = useNavigate();
     const queryClient = useQueryClient();
 
     const addMutation = useMutation({
-        mutationFn: propertyData => axios.post('http://localhost:3000/api/v1/add-properties', propertyData).then(res => res.data),
+        mutationFn: propertyData => axiosSecure.post('/add-properties', propertyData).then(res => res.data),
 
         onSuccess: () => {
             queryClient.invalidateQueries({
@@ -29,7 +29,7 @@ const AddProperties = () => {
                 confirmButtonText: "OK",
                 confirmButtonColor: "#38bdf8",
             })
-            .then(() => navigateTo('/my-properties'));
+                .then(() => navigateTo('/my-properties'));
         },
 
         onError: (error) => {

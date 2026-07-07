@@ -3,16 +3,20 @@ import MyProperty from '../../components/my-property/MyProperty';
 import { Helmet } from 'react-helmet-async';
 import { useQuery } from '@tanstack/react-query';
 import Loading from '../../components/loading/Loading';
-import axios from 'axios';
+// import axios from 'axios';
 import MySwal from '../../lib/swal';
 import useAuth from '../../hooks/useContext';
+import axiosSecure from '../../lib/axiosSecure';
 
 const MyProperties = () => {
     const { user } = useAuth();
     const { data: myProperties, isLoading, error, isError, refetch } = useQuery({
-        queryKey: ['my-properties'],
+        queryKey: ['my-properties', user?.email],
+        enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:3000/api/v1/get-my-properties?email=${user?.email}`);
+            const res = await axiosSecure.get('/get-my-properties', {
+                params: { email: user?.email },
+            });
 
             return res.data;
         }
