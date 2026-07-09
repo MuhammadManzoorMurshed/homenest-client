@@ -5,11 +5,16 @@ import useAuth from '../../hooks/useContext';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import axiosSecure from '../../lib/axiosSecure';
+import { motion } from 'motion/react';
+import { fadeUp } from '../../animations/fade';
+import { transitions } from '../../animations/shared';
 
 const AddProperties = () => {
     const { user } = useAuth();
     const navigateTo = useNavigate();
     const queryClient = useQueryClient();
+    const MotionHeading = motion.h1;
+    const MotionParagraph = motion.p;
 
     const addMutation = useMutation({
         mutationFn: propertyData => axiosSecure.post('/add-properties', propertyData).then(res => res.data),
@@ -84,8 +89,6 @@ const AddProperties = () => {
                 form.reset();
             }
         });
-
-        // fetch('http://localhost:3000/api/v1/add-properties', {
         //     method: 'POST',
         //     headers: {
         //         'content-type': 'application/json'
@@ -146,8 +149,22 @@ const AddProperties = () => {
 
             <form className='flex flex-col' action="" onSubmit={handleFormSubmit}>
                 <div className='text-center mb-15'>
-                    <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300'>Add New Property</h1>
-                    <p className='font-medium text-lg text-teal-500 dark:text-teal-400 mt-4'>Complete the form below to publish a new property listing.</p>
+                    <MotionHeading
+                        variants={fadeUp()}
+                        initial="hidden"
+                        animate="visible"
+                        className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300'
+                    >
+                        Add New Property
+                    </MotionHeading>
+                    <MotionParagraph
+                        variants={fadeUp(transitions.slow)}
+                        initial="hidden"
+                        animate="visible"
+                        className='font-medium text-lg text-teal-500 dark:text-teal-400 mt-4'
+                    >
+                        Complete the form below to publish a new property listing.
+                    </MotionParagraph>
                 </div>
 
                 {/* Property Name */}

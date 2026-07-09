@@ -7,9 +7,14 @@ import useAuth from '../../hooks/useContext';
 import Loading from '../../components/loading/Loading';
 import MySwal from '../../lib/swal';
 import axiosSecure from '../../lib/axiosSecure';
+import { motion } from 'motion/react';
+import { fadeUp } from '../../animations/fade';
+import { transitions } from '../../animations/shared';
 
 const MyRatings = () => {
     const { user } = useAuth();
+    const MotionHeading = motion.h1;
+    const MotionParagraph = motion.p;
     const { data: myRatings, isLoading, isError, error } = useQuery({
         queryKey: ['my-ratings', user?.email],
         enabled: !!user?.email,
@@ -43,8 +48,22 @@ const MyRatings = () => {
 
             <div className='sm:flex sm:justify-between sm:items-center gap-6 mb-10'>
                 <div>
-                    <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-left'>My Ratings</h1>
-                    <p className='font-medium text-md text-left mt-4 dark:text-gray-300'>Here are the ratings you have given to various properties.</p>
+                    <MotionHeading
+                        variants={fadeUp()}
+                        initial="hidden"
+                        animate="visible"
+                        className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-left'
+                    >
+                        My Ratings
+                    </MotionHeading>
+                    <MotionParagraph
+                        variants={fadeUp(transitions.slow)}
+                        initial="hidden"
+                        animate="visible"
+                        className='font-medium text-md text-left mt-4 dark:text-gray-300'
+                    >
+                        Here are the ratings you have given to various properties.
+                    </MotionParagraph>
                 </div>
                 <div className='flex gap-10 mt-10 sm:mt-0 bg-teal-100 dark:bg-gray-800 px-15 py-5 rounded-md justify-evenly items-center'>
                     <div className='flex flex-col justify-center items-center'>

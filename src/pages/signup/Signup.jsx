@@ -10,6 +10,9 @@ import { checkPassword } from '../../utils/checkPassword';
 import { checkConfirmPassword } from '../../utils/checkConfirmPassword';
 import Loading from './../../components/loading/Loading'
 import MySwal from '../../lib/swal';
+import { motion } from 'motion/react';
+import { fadeUp } from '../../animations/fade';
+import { transitions } from '../../animations/shared';
 
 const Signup = () => {
     const { signUp, loading } = useAuth();
@@ -19,6 +22,8 @@ const Signup = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [passwords, setPasswords] = useState({ password: "" , confirmPassword: "" });
     const [errors, setErrors] = useState({ firstName: "", lastName: "", photoUrl: "", email: "", password: "", confirmPassword: "", check: "" });
+    const MotionHeading = motion.h1;
+    const MotionParagraph = motion.p;
 
     const from = location.state?.from || '/';
 
@@ -119,7 +124,18 @@ const Signup = () => {
 
     return (
         <div className='card my-15 bg-teal-100 dark:bg-gray-800 dark:text-teal-100 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
-            <h1 className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-center mb-10'>Register Now!</h1>
+            <div>
+                <MotionHeading
+                variants={fadeUp()}
+                initial="hidden"
+                animate="visible"
+                className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-center mb-10'>Register Now!</MotionHeading>
+                <MotionParagraph
+                variants={fadeUp(transitions.slow)}
+                initial="hidden"
+                animate="visible"
+                className='text-center text-gray-600 dark:text-gray-400 mb-10'>Join our community! Please fill in your details to create an account.</MotionParagraph>
+            </div>
             <div className='card-body px-4'>
                 <form onSubmit={handleRegister} className="w-full">
                     <fieldset className="fieldset">
