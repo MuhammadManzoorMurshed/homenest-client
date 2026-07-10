@@ -7,9 +7,14 @@ import MySwal from '../../lib/swal';
 import Loading1 from '../../components/loading/Loading1';
 import Loading from '../loading/Loading';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { fadeUp } from '../../animations/fade'
+import { transitions } from '../../animations/shared';
 
 const FeaturedRealEstate = () => {
     const navigateTo = useNavigate();
+    const MotionHeading = motion.h1;
+    const MotionParagraph = motion.p;
 
     const { data: featuredProperties, isLoading, error, isError, refetch } = useQuery({
         queryKey: ['featured-properties'],
@@ -47,8 +52,24 @@ const FeaturedRealEstate = () => {
         <section className='max-w-7xl mx-auto my-15 sm:my-25'>
             <div className='[@media(min-width:32rem)]:flex [@media(min-width:32rem)]:justify-between [@media(min-width:32rem)]:items-end'>
                 <div className='text-right'>
-                    <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left'>Featured Real Estate</h2>
-                    <p className='font-medium text-[12px] [@media(min-width:32rem)]:text-base text-left mt-4 dark:text-gray-300'>Handpicked premium listings just for you</p>
+                    <MotionHeading
+                    variants={fadeUp()}
+                    initial='hidden'
+                    whileInView='visible'
+                    viewport={{
+                        once: true,
+                        amount: 0.2
+                    }}
+                    className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left'>Featured Real Estate</MotionHeading>
+                    <MotionParagraph
+                    variants={fadeUp(transitions.slow)}
+                    initial='hidden'
+                    whileInView='visible'
+                    viewport={{
+                        once: true,
+                        amount: 1
+                    }}
+                    className='font-medium text-[12px] [@media(min-width:32rem)]:text-base text-left mt-4 dark:text-gray-300'>Handpicked premium listings just for you</MotionParagraph>
                 </div>
 
                 <div className='flex justify-end mt-5 [@media(min-width:32rem)]:mt-0'>

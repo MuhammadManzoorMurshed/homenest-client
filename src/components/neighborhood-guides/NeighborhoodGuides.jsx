@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'motion/react';
+import { fadeUp } from '../../animations/fade';
 
 const neighborhoodGuides = {
     image: ["a.png", "b.png", "c.png", "d.png"],
@@ -7,11 +9,24 @@ const neighborhoodGuides = {
 }
 
 const NeighborhoodGuides = () => {
+    const MotionHeading = motion.h2;
+
     return (
         <section className='max-w-7xl mx-auto my-15 sm:my-25'>
             <div className='[@media(min-width:32rem)]:flex [@media(min-width:32rem)]:justify-between [@media(min-width:32rem)]:items-end'>
                 <div className='text-right'>
-                    <h2 className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left mb-10'>Neighborhood Guides</h2>
+                    <MotionHeading
+                        variants={fadeUp()}
+                        initial='hidden'
+                        whileInView='visible'
+                        viewport={{
+                            once: true,
+                            amount: 0.2
+                        }}
+                        className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left mb-10'
+                    >
+                        Neighborhood Guides
+                    </MotionHeading>
                 </div>
             </div>
 
