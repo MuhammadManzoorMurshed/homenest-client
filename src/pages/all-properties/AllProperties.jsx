@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropertyCard from '../../components/property-card/PropertyCard';
 import Pagination from '../../components/pagination/Pagination';
 import Search from '../../components/search/Search';
@@ -10,14 +10,26 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade';
 import { transitions } from '../../animations/shared';
+import AllPropertiesGrid from '../../components/all-properties-grid/AllPropertiesGrid';
+
+const containerVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            delayChildren: 0.2,
+            // staggerChildren: 0.25,
+        }
+    },
+}
 
 const AllProperties = () => {
-    const [ searchText, setSearchText ] = useState("");
-    const [ sortField, setSortField ] = useState("newest");
+    const [searchText, setSearchText] = useState("");
+    const [sortField, setSortField] = useState("newest");
     const MotionHeading = motion.h1;
     const MotionParagraph = motion.p;
+    const MotionContainer = motion.div;
     const { data: allProperties, isLoading, isFetching, error, isError, refetch } = useQuery({
-        queryKey: ['all-properties', searchText,  sortField],
+        queryKey: ['all-properties', searchText, sortField],
         queryFn: async () => {
             const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}`);
 
@@ -38,7 +50,7 @@ const AllProperties = () => {
         }
     }, [allProperties])
 
-    if(isError) {
+    if (isError) {
         MySwal.fire({
             icon: "error",
             title: error.message || "Error",
@@ -76,23 +88,31 @@ const AllProperties = () => {
                 </MotionParagraph>
             </div>
 
-            <Search setSearchText={setSearchText} setSortField={setSortField}/>
+            <Search setSearchText={setSearchText} setSortField={setSortField} />
 
             {
                 (isLoading || isFetching) && <Loading />
             }
 
-            <div className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : 'grid grid-cols-1 sm:grid-cols-2 [@media(min-width:60rem)]:grid-cols-3 gap-5 justify-items-center'}`}>
-                <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
-                <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
-                    Try Again to Load Properties
-                </button>
-                {
-                    allProperties?.data?.map(property => (
-                        <PropertyCard key={property._id} property={property}/>
-                    ))
-                }
-            </div>
+            <MotionContainer
+                variants={containerVariants}
+                initial='hidden'
+                whileInView='visible'
+                viewport={{
+                    // once: true
+                    amount: 0.2,
+                }}
+                className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : ""}`}>
+                
+                <div>
+                    <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
+                    <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
+                        Try Again to Load Properties
+                    </button>
+                </div>
+
+                <AllPropertiesGrid allProperties={allProperties} />
+            </MotionContainer>
 
             <Pagination borderRadius='!rounded-xl' isHidden='flex' />
         </div>

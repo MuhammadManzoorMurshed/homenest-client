@@ -1,14 +1,58 @@
 import React from 'react';
 import { FiMapPin } from 'react-icons/fi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { durations } from '../../animations/shared';
 
-const PropertyCard = ({ property }) => {
+const cardVariants = {
+    // initial
+    hidden: {
+        opacity: 0,
+        y: 20,
+    },
+
+    // animate
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: durations.normal,
+        }
+    }
+};
+
+const PropertyCard = ({ property, orchestrated = false }) => {
     const navigateTo = useNavigate();
-    const {_id, firstImage, propertyName, city, thana, listingPurpose, propertyType, price, name } = property || {};
+    const { _id, firstImage, propertyName, city, thana, listingPurpose, propertyType, price, name } = property || {};
+    const MotionContainer = motion.div;
+    const location = useLocation();
+    const motionProps = location.pathname === '/' ? {
+        variants: cardVariants,
+    } : {
+        variants: cardVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: {
+            // once: true,
+            amount: 0.2,
+        },
+    };
 
     return (
-        <div className="card bg-teal-50 dark:bg-gray-900 max-w-96 xl:w-96 shadow-sm dark:shadow-gray-900/50 hover:shadow-lg transition-shadow duration-300 rounded-lg relative group">
+        <MotionContainer
+            {...motionProps}
+            whileHover={{
+                scale: 1.02,
+                y: -6,
+                transition: {
+                    duration: 0.35,
+                }
+            }}
+            transition={{
+                duration: 0.2,
+            }}
+            className="card bg-teal-50 dark:bg-gray-900 max-w-96 xl:w-96 shadow-sm dark:shadow-gray-900/50 hover:shadow-lg transition-shadow duration-300 rounded-lg relative group">
             <figure className='h-48 overflow-hidden'>
                 <img className='cover group-hover:scale-105 transition-transform duration-300'
                     src={firstImage}
@@ -31,7 +75,7 @@ const PropertyCard = ({ property }) => {
                     <button onClick={() => navigateTo(`/properties/${_id}`)} className="btn flex-1 font-fredoka text-base bg-teal-500 text-white transition duration-300 hover:scale-x-95">See Details</button>
                 </div>
             </div>
-        </div>
+        </MotionContainer>
     );
 };
 

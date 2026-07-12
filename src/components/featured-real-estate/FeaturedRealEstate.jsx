@@ -11,10 +11,25 @@ import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade'
 import { transitions } from '../../animations/shared';
 
+const containerVariants = {
+    // initial
+    hidden: {},
+
+    // animate
+    visible: {
+        transition: {
+            delayChildren: 0.25,
+            staggerChildren: 0.15,
+            // staggerDirection: -1,
+        }
+    }
+};
+
 const FeaturedRealEstate = () => {
     const navigateTo = useNavigate();
     const MotionHeading = motion.h1;
     const MotionParagraph = motion.p;
+    const MotionContainer = motion.div;
 
     const { data: featuredProperties, isLoading, error, isError, refetch } = useQuery({
         queryKey: ['featured-properties'],
@@ -57,8 +72,8 @@ const FeaturedRealEstate = () => {
                     initial='hidden'
                     whileInView='visible'
                     viewport={{
-                        once: true,
-                        amount: 0.2
+                        // once: false,
+                        amount: 0.2,
                     }}
                     className='font-fredoka font-semibold text-[28px] [@media(min-width:32rem)]:text-3xl text-teal-900 dark:text-teal-300 text-left'>Featured Real Estate</MotionHeading>
                     <MotionParagraph
@@ -66,8 +81,8 @@ const FeaturedRealEstate = () => {
                     initial='hidden'
                     whileInView='visible'
                     viewport={{
-                        once: true,
-                        amount: 1
+                        // once: false,
+                        amount: 0.2,
                     }}
                     className='font-medium text-[12px] [@media(min-width:32rem)]:text-base text-left mt-4 dark:text-gray-300'>Handpicked premium listings just for you</MotionParagraph>
                 </div>
@@ -77,7 +92,15 @@ const FeaturedRealEstate = () => {
                 </div>
             </div>
 
-            <div className={`${isError ? 'flex flex-col justify-center items-center my-15' : 'grid grid-cols-1 sm:grid-cols-2 [@media(min-width:60rem)]:grid-cols-3 gap-15 justify-items-center mt-15 '}`}>
+            <MotionContainer
+            variants={containerVariants}
+            initial='hidden'
+            whileInView='visible'
+            viewport={{
+                // once: true,
+                amount: 0.1,
+            }}
+            className={`${isError ? 'flex flex-col justify-center items-center my-15' : 'grid grid-cols-1 sm:grid-cols-2 [@media(min-width:60rem)]:grid-cols-3 gap-15 justify-items-center mt-15 '}`}>
                 <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
                 <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
                     Try Again to Load Properties
@@ -85,10 +108,10 @@ const FeaturedRealEstate = () => {
                 {
                     
                     featuredProperties?.data?.map(property => (
-                        <PropertyCard key={property._id} property={property} />
+                        <PropertyCard key={property._id} property={property} orchestrated={true} />
                     ))
                 }
-            </div>
+            </MotionContainer>
 
         </section>
     );
