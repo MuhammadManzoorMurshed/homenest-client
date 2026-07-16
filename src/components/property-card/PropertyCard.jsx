@@ -3,7 +3,8 @@ import { FiMapPin } from 'react-icons/fi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { durations } from '../../animations/shared';
+import { durations, transitions } from '../../animations/shared';
+import { interactions } from '../../animations/interactions';
 
 const cardVariants = {
     // initial
@@ -26,6 +27,7 @@ const PropertyCard = ({ property, orchestrated = false }) => {
     const navigateTo = useNavigate();
     const { _id, firstImage, propertyName, city, thana, listingPurpose, propertyType, price, name } = property || {};
     const MotionContainer = motion.div;
+    const MotionButton = motion.button;
     const location = useLocation();
     const motionProps = location.pathname === '/' ? {
         variants: cardVariants,
@@ -39,18 +41,22 @@ const PropertyCard = ({ property, orchestrated = false }) => {
         },
     };
 
+    console.log(orchestrated);
+
     return (
         <MotionContainer
             {...motionProps}
-            whileHover={{
-                scale: 1.02,
-                y: -6,
-                transition: {
-                    duration: 0.35,
-                }
-            }}
+            whileHover={interactions.cardHover}
+
             transition={{
-                duration: 0.2,
+                duration: transitions.normal,
+                // type: "spring",
+                // type: "tween",
+                // duration: 0.2,
+                // ease: easings.standard,
+                // stiffness: 350,
+                // damping: 25,
+                // mass: 1,
             }}
             className="card bg-teal-50 dark:bg-gray-900 max-w-96 xl:w-96 shadow-sm dark:shadow-gray-900/50 hover:shadow-lg transition-shadow duration-300 rounded-lg relative group">
             <figure className='h-48 overflow-hidden'>
@@ -72,7 +78,17 @@ const PropertyCard = ({ property, orchestrated = false }) => {
 
                 <div className="card-actions justify-between gap-2 items-center mt-4">
                     <p className="text-base text-teal-600 dark:text-teal-400 outline outline-teal-600 dark:outline-teal-500 rounded-xl px-3 py-1.5">$ <span>{price}</span></p>
-                    <button onClick={() => navigateTo(`/properties/${_id}`)} className="btn flex-1 font-fredoka text-base bg-teal-500 text-white transition duration-300 hover:scale-x-95">See Details</button>
+                    <MotionButton
+                        whileHover={interactions.buttonHover}
+                        transition={transitions.fast}
+                        whileTap={interactions.buttonTap}
+                        // transition={{
+                        //     type: "spring",
+                        //     stiffness: 500,
+                        //     damping: 25,
+                        // }}
+                        onClick={() => navigateTo(`/properties/${_id}`)}
+                        className="btn flex-1 font-fredoka text-base bg-teal-500 text-white">See Details</MotionButton>
                 </div>
             </div>
         </MotionContainer>

@@ -13,6 +13,7 @@ import MySwal from '../../lib/swal';
 import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade';
 import { transitions } from '../../animations/shared';
+import { interactions } from '../../animations/interactions';
 
 const Signup = () => {
     const { signUp, loading } = useAuth();
@@ -20,7 +21,7 @@ const Signup = () => {
     const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [passwords, setPasswords] = useState({ password: "" , confirmPassword: "" });
+    const [passwords, setPasswords] = useState({ password: "", confirmPassword: "" });
     const [errors, setErrors] = useState({ firstName: "", lastName: "", photoUrl: "", email: "", password: "", confirmPassword: "", check: "" });
     const MotionHeading = motion.h1;
     const MotionParagraph = motion.p;
@@ -42,34 +43,34 @@ const Signup = () => {
 
         console.log(firstName, lastName, photoURL, email, password, confirmPassword, isCheckedTC);
 
-        if(!firstName) {
-            setErrors(prevErrors => ({...prevErrors, firstName: "First name cannnot be empty"}));
+        if (!firstName) {
+            setErrors(prevErrors => ({ ...prevErrors, firstName: "First name cannnot be empty" }));
 
             return;
         } else {
-            setErrors(prevErrors => ({...prevErrors, firstName: ""}));
+            setErrors(prevErrors => ({ ...prevErrors, firstName: "" }));
         }
 
         signUp(email, password, `${firstName} ${lastName}`, photoURL)
-        .then( result => {
-            const user = result.user;
-            console.log("User created succesfully: ", user);
+            .then(result => {
+                const user = result.user;
+                console.log("User created succesfully: ", user);
 
-            form.reset();
+                form.reset();
 
-            MySwal.fire({
-                icon: "success",
-                title: "Welcome!",
-                text: "Your sign up is successfull.",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#16bdca",
+                MySwal.fire({
+                    icon: "success",
+                    title: "Welcome!",
+                    text: "Your sign up is successfull.",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#16bdca",
+                })
+
+                navigateTo(from, { replace: true });
             })
-
-            navigateTo(from, { replace: true });
-        })
-        .catch( error => {
-            console.error("Error creating user: ", error);
-        });
+            .catch(error => {
+                console.error("Error creating user: ", error);
+            });
     }
 
     // --------------- Set Error Function ---------------
@@ -118,7 +119,7 @@ const Signup = () => {
         setError("confirmPassword", error);
     }
 
-    if(loading) {
+    if (loading) {
         return <Loading />
     }
 
@@ -126,15 +127,15 @@ const Signup = () => {
         <div className='card my-15 bg-teal-100 dark:bg-gray-800 dark:text-teal-100 sm:w-150 md:w-175 sm:mx-auto sm:px-6 py-10'>
             <div>
                 <MotionHeading
-                variants={fadeUp()}
-                initial="hidden"
-                animate="visible"
-                className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-center mb-10'>Register Now!</MotionHeading>
+                    variants={fadeUp()}
+                    initial="hidden"
+                    animate="visible"
+                    className='font-fredoka font-semibold text-4xl text-teal-900 dark:text-teal-300 text-center mb-10'>Register Now!</MotionHeading>
                 <MotionParagraph
-                variants={fadeUp(transitions.slow)}
-                initial="hidden"
-                animate="visible"
-                className='text-center text-gray-600 dark:text-gray-400 mb-10'>Join our community! Please fill in your details to create an account.</MotionParagraph>
+                    variants={fadeUp(transitions.slow)}
+                    initial="hidden"
+                    animate="visible"
+                    className='text-center text-gray-600 dark:text-gray-400 mb-10'>Join our community! Please fill in your details to create an account.</MotionParagraph>
             </div>
             <div className='card-body px-4'>
                 <form onSubmit={handleRegister} className="w-full">
@@ -215,7 +216,12 @@ const Signup = () => {
                         </div>
 
                         {/* Register Button */}
-                        <button className="btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 dark:bg-teal-600 border-0 transform hover:scale-y-105 transition-transform duration-300">Register</button>
+                        <motion.button
+                            whileHover={interactions.buttonHover}
+                            whileTap={interactions.buttonTap}
+                            transition={transitions.fast}
+                            type='button'
+                            className="btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 dark:bg-teal-600 border-0">Register</motion.button>
                     </fieldset>
                 </form>
                 <div className='text-center font-semibold text-base mt-6'>

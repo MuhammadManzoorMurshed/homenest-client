@@ -8,6 +8,7 @@ import axiosSecure from '../../lib/axiosSecure';
 import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade';
 import { transitions } from '../../animations/shared';
+import { interactions } from '../../animations/interactions';
 
 const AddProperties = () => {
     const { user } = useAuth();
@@ -238,7 +239,11 @@ const AddProperties = () => {
                 <input className='input w-full border-0' type="email" id="email" name="email" placeholder='@ Type your email here' value={user?.email || ''} readOnly />
 
                 {/* Submit Button */}
-                <button className='btn btn-neutral mt-6 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0 transform transition-transform hover:scale-y-105 duration-300' type="submit">Add Property</button>
+                <motion.button
+                    whileHover={interactions.buttonHover}
+                    whileTap={interactions.buttonTap}
+                    // transition={transitions.fast}
+                    className='btn btn-neutral mt-6 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0 transform transition-transform duration-150' type="submit">Add Property</motion.button>
             </form>
         </div>
     );

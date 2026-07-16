@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade'
 import { transitions } from '../../animations/shared';
+import { interactions } from '../../animations/interactions';
 
 const containerVariants = {
     // initial
@@ -41,10 +42,10 @@ const FeaturedRealEstate = () => {
         staleTime: 5000, // 5 seconds
     });
 
-    console.log("Featured Properties: ", featuredProperties);
-    console.log("Loading: ", isLoading);
-    console.log("Error: ", error);
-    console.log("Is Error: ", isError);
+    // console.log("Featured Properties: ", featuredProperties);
+    // console.log("Loading: ", isLoading);
+    // console.log("Error: ", error);
+    // console.log("Is Error: ", isError);
 
     if (isLoading) {
         return <Loading />;
@@ -88,7 +89,11 @@ const FeaturedRealEstate = () => {
                 </div>
 
                 <div className='flex justify-end mt-5 [@media(min-width:32rem)]:mt-0'>
-                    <button onClick={() => navigateTo('/all-properties')} className='text-teal-600 dark:text-teal-400 flex items-center font-bold cursor-pointer transition duration-300 hover:text-teal-500 dark:hover:text-teal-300 hover:scale-105'>View All &nbsp; <FaArrowRight className='inline' /> </button>
+                    <motion.button
+                    whileHover={interactions.buttonHover}
+                    whileTap={interactions.buttonTap}
+                    // transition={transitions.fast}
+                    onClick={() => navigateTo('/all-properties')} className='text-teal-600 dark:text-teal-400 flex items-center font-bold cursor-pointer transition duration-150 hover:text-teal-500 dark:hover:text-teal-300'>View All &nbsp; <FaArrowRight className='inline' /> </motion.button>
                 </div>
             </div>
 

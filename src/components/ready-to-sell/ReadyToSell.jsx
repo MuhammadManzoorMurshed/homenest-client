@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade';
 import { transitions } from '../../animations/shared';
+import { interactions } from '../../animations/interactions';
 
 const ReadyToSell = () => {
     const MotionHeading = motion.h2;
@@ -37,10 +38,18 @@ const ReadyToSell = () => {
                     </MotionParagraph>
 
                     <div className='flex flex-col sm:flex-row gap-5 '>
-                        <button className='btn bg-teal-400 border-0 text-teal-800 transition duration-300 hover:scale-y-105 hover:bg-teal-300 sm:py-6'>List Your Property</button>
-                        <button className='btn btn-outline text-teal-200 transition-all duration-300 hover:bg-teal-700 hover:scale-y-105 sm:py-6'>Free Valuation</button>
+                        <motion.button
+                            whileHover={interactions.buttonHover}
+                            whileTap={interactions.buttonTap}
+                            // transition={transitions.fast}
+                            className='btn bg-teal-400 border-0 text-teal-800 transition duration-150 hover:bg-teal-300 sm:py-6'>List Your Property</motion.button>
+                        <motion.button
+                            whileHover={interactions.buttonHover}
+                            whileTap={interactions.buttonTap}
+                            // transition={transitions.fast}
+                            className='btn btn-outline text-teal-200 transition-all duration-150 hover:bg-teal-700 sm:py-6'>Free Valuation</motion.button>
                     </div>
-                    
+
                 </div>
                 <div className='flex-1 mt-5 sm:mt-0'>
                     <img className='transition-transform duration-200 group-hover:scale-95 rounded-md object-cover w-full max-h-125' src="/E.png" alt="" />

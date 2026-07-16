@@ -1,15 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { motion } from 'motion/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { interactions } from '../../animations/interactions';
+// import { transitions } from '../../animations/shared';
 
 const HeroCarousel = () => {
     const navigateTo = useNavigate();
+    const MotionContainer = motion.div;
     const banners = [
         {
             id: 1,
@@ -59,9 +63,16 @@ const HeroCarousel = () => {
                                     <h1 className='font-semibold sm:font-bold font-fredoka text-2xl [@media(min-width:28rem)]:text-3xl [@media(min-width:40rem)]:text-5xl [@media(min-width:64rem)]:text-7xl text-white text-center sm:text-left'><span className='text-[#02c8a7]'>{banner.title[0]}</span> {banner.title[1]}<span><br /></span>{banner.title[2]} <span className='text-[#02c8a7]'>{banner.title[3]}</span></h1>
                                     <p className='font-normal sm:font-semibold text-sm [@media(min-width:35rem)]:text-base [@media(min-width:64rem)]:text-xl md:text-7xl text-teal-100 my-5 sm:my-10 text-center sm:text-left'>{banner.description}</p>
 
-                                    <div className='text-center sm:text-left'>
-                                        <button onClick={() => navigateTo('/all-properties')} className='btn bg-teal-400 border-0 w-50 sm:w-60 h-12 sm:h-15 text-teal-900 text-base transition duration-300 hover:bg-teal-500 hover:text-teal-100 hover:scale-105'>Browse Properties</button>
-                                    </div>
+                                    <MotionContainer
+                                        // whileHover={interactions.buttonHover}
+                                        // whileTap={interactions.buttonTap}
+                                        // transition={transitions.fast}
+                                        className='text-center sm:text-left'>
+                                        <motion.button
+                                            whileHover={interactions.buttonHover}
+                                            whileTap={interactions.buttonTap}
+                                        onClick={() => navigateTo('/all-properties')} className='btn bg-teal-400 border-0 w-50 sm:w-60 h-12 sm:h-15 text-teal-900 text-base transition duration-150 hover:bg-teal-500 hover:text-teal-100'>Browse Properties</motion.button>
+                                    </MotionContainer>
                                 </div>
                             </SwiperSlide>
                         )

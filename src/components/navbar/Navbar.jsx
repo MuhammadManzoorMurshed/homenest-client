@@ -6,12 +6,16 @@ import { RiUserAddFill } from 'react-icons/ri';
 import { CgLogIn } from "react-icons/cg";
 import Loading from '../loading/Loading';
 import ThemeToggle from '../theme-toggle/ThemeToggle';
+import { motion } from 'motion/react';
+import { interactions } from '../../animations/interactions';
+// import { transitions } from '../../animations/shared';
 
 const Navbar = () => {
     const { user, logOut, loading } = useAuth();
     const navigateTo = useNavigate();
+    const MotionButton = motion.button;
 
-    if(loading) {
+    if (loading) {
         return <Loading />
     }
 
@@ -89,14 +93,21 @@ const Navbar = () => {
             {/* --------------- Button --------------- */}
             <div className="navbar-end space-x-3 sm:pr-4">
                 <ThemeToggle />
-                
+
                 {
                     !user && <>
-                        <Link to={'/authentication/signin'} className='transition hover:scale-95 duration-300' ><CgLogIn className='w-6 h-6 sm:hidden text-teal-500 dark:text-teal-400'/></Link>
-                        <Link to={'/authentication/signup'} className='transition hover:scale-95 duration-300' ><RiUserAddFill className='w-6 h-6 sm:hidden text-teal-700 dark:text-teal-400'/></Link>
+                        <Link to={'/authentication/signin'} className='transition hover:scale-95 duration-300' ><CgLogIn className='w-6 h-6 sm:hidden text-teal-500 dark:text-teal-400' /></Link>
+                        <Link to={'/authentication/signup'} className='transition hover:scale-95 duration-300' ><RiUserAddFill className='w-6 h-6 sm:hidden text-teal-700 dark:text-teal-400' /></Link>
 
-                        <NavLink to={'/authentication/signin'} className="btn hidden sm:flex bg-teal-300 dark:bg-teal-700 text-black dark:text-white transition duration-300 hover:bg-teal-500 hover:text-white hover:scale-105 ">Signin</NavLink>
-                        <NavLink to={'/authentication/signup'} className="btn hidden sm:flex bg-teal-700 text-white transition duration-300 hover:bg-teal-500 hover:scale-105">Signup</NavLink>
+                        <motion.NavLink
+                            whileHover={interactions.buttonHover}
+                            whileTap={interactions.buttonTap}
+                            // transition={transitions.normal}
+                            to={'/authentication/signin'} className="btn hidden sm:flex bg-teal-300 dark:bg-teal-700 text-black dark:text-white transition duration-150 hover:bg-teal-500 hover:text-white ">Signin</motion.NavLink>
+                        <motion.NavLink
+                            whileHover={interactions.buttonHover}
+                            whileTap={interactions.buttonTap}
+                            to={'/authentication/signup'} className="btn hidden sm:flex bg-teal-700 text-white transition duration-150 hover:bg-teal-500">Signup</motion.NavLink>
                     </>
                 }
             </div>
@@ -128,7 +139,11 @@ const Navbar = () => {
                                     <li className='text-teal-700 dark:text-teal-300 text-base font-bold'>{user?.displayName}</li>
                                     <li className='mt-2 text-teal-500 dark:text-teal-400 text-sm'>{user?.email}</li>
                                 </div>
-                                <button onClick={handleLogout} className='btn mt-2 transition duration-300 hover:bg-teal-500 hover:text-white hover:scale-x-95 hover:scale-y-110'>Logout</button>
+                                <MotionButton
+                                    whileHover={interactions.buttonHover}
+                                    whileTap={interactions.buttonTap}
+                                    // transition={transitions.normal}
+                                    onClick={handleLogout} className='btn mt-2 transition duration-300 hover:bg-teal-500 hover:text-white'>Logout</MotionButton>
                             </ul>
                         </div>
                     </div>

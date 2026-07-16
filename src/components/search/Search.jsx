@@ -1,7 +1,11 @@
 import React from 'react';
 import { FaChevronDown, FaSearch } from 'react-icons/fa';
+import { motion } from 'motion/react';
+import { interactions } from '../../animations/interactions';
+// import { transitions } from '../../animations/shared';
 
 const Search = ({ setSearchText, setSortField }) => {
+    const MotionButton = motion.button;
     const handleSearch = (e) => {
         setSearchText(e.target.value);
     }
@@ -30,7 +34,11 @@ const Search = ({ setSearchText, setSortField }) => {
                     <span className='absolute right-3 top-1/2  -translate-y-1/2 pointer-events-none'><FaChevronDown /></span>
                 </div>
 
-                <button className='flex-1 btn bg-teal-500 text-white hover:bg-teal-600 transition duration-300 hover:scale-y-105 py-2 px-4'>Search</button>
+                <MotionButton
+                    whileHover={interactions.buttonHover}
+                    whileTap={interactions.buttonTap}
+                    // transition={transitions.fast}
+                    className='flex-1 btn bg-teal-500 text-white hover:bg-teal-600 transition duration-150 py-2 px-4'>Search</MotionButton>
             </div>
         </section>
     );
