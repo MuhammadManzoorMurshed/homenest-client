@@ -31,16 +31,20 @@ const containerVariants = {
 const AllProperties = () => {
     const [searchText, setSearchText] = useState("");
     const [sortField, setSortField] = useState("newest");
+    const [page, setPage] = useState(1);
+
     const MotionHeading = motion.h1;
     const MotionParagraph = motion.p;
     const MotionContainer = motion.div;
+
     const { data: allProperties, isLoading, isFetching, error, isError, refetch } = useQuery({
-        queryKey: ['all-properties', searchText, sortField],
+        queryKey: ['all-properties', searchText, sortField, page],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}`);
+            const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}&page=${page}&limit=12`);
 
             return res.data;
         },
+
         staleTime: 5000, // 5 seconds
     })
 
@@ -66,7 +70,17 @@ const AllProperties = () => {
         })
     }
 
-    console.log(searchText);
+    const handleSearchChange = (value) => {
+        setSearchText(value);
+        setPage(1);
+    }
+
+    const handleSortChange = (value) => {
+        setSortField(value);
+        setPage(1);
+    }
+
+    // console.log(searchText);
 
     return (
         <div className='max-w-7xl mx-auto my-15'>
@@ -94,7 +108,7 @@ const AllProperties = () => {
                 </MotionParagraph>
             </div>
 
-            <Search setSearchText={setSearchText} setSortField={setSortField} />
+            <Search setSearchText={handleSearchChange} setSortField={handleSortChange} />
 
             {
                 (isLoading || isFetching) ? (
@@ -122,7 +136,13 @@ const AllProperties = () => {
                 )
             }
 
-            <Pagination borderRadius='!rounded-xl' isHidden='flex' />
+            <Pagination
+            currentPage={page}
+            totalPages={allProperties?.totalPages}
+            onPageChange={setPage}
+            borderRadius='!rounded-xl'
+            // isHidden='flex'
+            />
         </div>
     );
 };

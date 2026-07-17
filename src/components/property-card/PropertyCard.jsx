@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiMapPin } from 'react-icons/fi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { durations, transitions } from '../../animations/shared';
 import { interactions } from '../../animations/interactions';
@@ -28,7 +28,7 @@ const PropertyCard = ({ property, orchestrated = false }) => {
     const { _id, firstImage, propertyName, city, thana, listingPurpose, propertyType, price, name } = property || {};
     const MotionContainer = motion.div;
     const MotionButton = motion.button;
-    const location = useLocation();
+    // const location = useLocation();
     const motionProps = orchestrated ? {
         variants: cardVariants,
     } : {

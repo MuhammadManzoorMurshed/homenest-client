@@ -72,7 +72,7 @@ const MyProperties = () => {
                 </button>
                 {
                     myProperties?.data?.map(property => (
-                        <MyProperty key={property._id} myProperty={property} />
+                        <MyProperty key={property._id} myProperty={property} orchestrated={true} />
                     ))
                 }
             </div>
