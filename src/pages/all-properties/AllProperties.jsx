@@ -13,11 +13,17 @@ import { transitions } from '../../animations/shared';
 import AllPropertiesGrid from '../../components/all-properties-grid/AllPropertiesGrid';
 
 const containerVariants = {
-    hidden: {},
+    hidden: {
+        opacity: 0,
+        y: 20,
+    },
     visible: {
+        opacity: 1,
+        y: 0,
         transition: {
-            delayChildren: 0.2,
-            // staggerChildren: 0.25,
+            delay: 0.4,
+            duration: 0.35,
+            ease: "easeOut",
         }
     },
 }
@@ -91,28 +97,30 @@ const AllProperties = () => {
             <Search setSearchText={setSearchText} setSortField={setSortField} />
 
             {
-                (isLoading || isFetching) && <Loading />
+                (isLoading || isFetching) ? (
+                    <Loading />
+                ) : (
+                    <MotionContainer
+                        variants={containerVariants}
+                        initial='hidden'
+                        whileInView='visible'
+                        viewport={{
+                            once: true,
+                            amount: "some",
+                        }}
+                        className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : ""}`}>
+                        
+                        <div>
+                            <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
+                            <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
+                                Try Again to Load Properties
+                            </button>
+                        </div>
+
+                        <AllPropertiesGrid allProperties={allProperties} />
+                    </MotionContainer>
+                )
             }
-
-            <MotionContainer
-                variants={containerVariants}
-                initial='hidden'
-                whileInView='visible'
-                viewport={{
-                    // once: true
-                    amount: 0.2,
-                }}
-                className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : ""}`}>
-                
-                <div>
-                    <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
-                    <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
-                        Try Again to Load Properties
-                    </button>
-                </div>
-
-                <AllPropertiesGrid allProperties={allProperties} />
-            </MotionContainer>
 
             <Pagination borderRadius='!rounded-xl' isHidden='flex' />
         </div>

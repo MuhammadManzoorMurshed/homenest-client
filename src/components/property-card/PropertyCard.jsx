@@ -29,7 +29,7 @@ const PropertyCard = ({ property, orchestrated = false }) => {
     const MotionContainer = motion.div;
     const MotionButton = motion.button;
     const location = useLocation();
-    const motionProps = location.pathname === '/' ? {
+    const motionProps = orchestrated ? {
         variants: cardVariants,
     } : {
         variants: cardVariants,
@@ -41,23 +41,12 @@ const PropertyCard = ({ property, orchestrated = false }) => {
         },
     };
 
-    console.log(orchestrated);
-
     return (
         <MotionContainer
             {...motionProps}
             whileHover={interactions.cardHover}
 
-            transition={{
-                duration: transitions.normal,
-                // type: "spring",
-                // type: "tween",
-                // duration: 0.2,
-                // ease: easings.standard,
-                // stiffness: 350,
-                // damping: 25,
-                // mass: 1,
-            }}
+            transition={transitions.normal}
             className="card bg-teal-50 dark:bg-gray-900 max-w-96 xl:w-96 shadow-sm dark:shadow-gray-900/50 hover:shadow-lg transition-shadow duration-300 rounded-lg relative group">
             <figure className='h-48 overflow-hidden'>
                 <img className='cover group-hover:scale-105 transition-transform duration-300'

@@ -16,7 +16,7 @@ import { transitions } from '../../animations/shared';
 import { interactions } from '../../animations/interactions';
 
 const Signup = () => {
-    const { signUp, loading } = useAuth();
+    const { signUp, loading, setLoading } = useAuth();
     const location = useLocation();
     const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -69,7 +69,25 @@ const Signup = () => {
                 navigateTo(from, { replace: true });
             })
             .catch(error => {
+                setLoading(false);
                 console.error("Error creating user: ", error);
+                
+                let errorMessage = "Failed to sign up. Please try again.";
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = "This email is already in use. Please log in or use another email.";
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = "The email address is invalid.";
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = "The password is too weak.";
+                }
+
+                MySwal.fire({
+                    icon: "error",
+                    title: "Registration Failed",
+                    text: errorMessage,
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#0694a2",
+                });
             });
     }
 
@@ -220,7 +238,7 @@ const Signup = () => {
                             whileHover={interactions.buttonHover}
                             whileTap={interactions.buttonTap}
                             transition={transitions.fast}
-                            type='button'
+                            type='submit'
                             className="btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 dark:bg-teal-600 border-0">Register</motion.button>
                     </fieldset>
                 </form>

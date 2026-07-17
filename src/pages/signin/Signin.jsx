@@ -52,13 +52,22 @@ const Signin = () => {
                 console.log("Error code:", error.code);
                 console.log("Error message:", error.message);
 
-                if(error.code === 'auth/invalid-credential') {
-                    MySwal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Invalid email or password.",
-                    })
+                let errorMessage = "Failed to log in. Please try again.";
+                if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                    errorMessage = "Invalid email or password.";
+                } else if (error.code === 'auth/user-disabled') {
+                    errorMessage = "This user account has been disabled.";
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = "Too many login attempts. Please try again later.";
                 }
+
+                MySwal.fire({
+                    icon: "error",
+                    title: "Login Failed",
+                    text: errorMessage,
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#0694a2",
+                });
             });
     }
 
@@ -134,7 +143,7 @@ const Signin = () => {
                         whileHover={interactions.buttonHover}
                         whileTap={interactions.buttonTap}
                         transition={transitions.fast}
-                        type='button'
+                        type='submit'
                         className="btn btn-neutral mt-4 font-fredoka font-semibold text-2xl py-6 bg-teal-500 border-0">Login</motion.button>
                     </fieldset>
                 </form>

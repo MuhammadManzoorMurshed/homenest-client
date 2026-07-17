@@ -14,6 +14,7 @@ const Navbar = () => {
     const { user, logOut, loading } = useAuth();
     const navigateTo = useNavigate();
     const MotionButton = motion.button;
+    const MotionNavLink = motion(NavLink);
 
     if (loading) {
         return <Loading />
@@ -99,15 +100,15 @@ const Navbar = () => {
                         <Link to={'/authentication/signin'} className='transition hover:scale-95 duration-300' ><CgLogIn className='w-6 h-6 sm:hidden text-teal-500 dark:text-teal-400' /></Link>
                         <Link to={'/authentication/signup'} className='transition hover:scale-95 duration-300' ><RiUserAddFill className='w-6 h-6 sm:hidden text-teal-700 dark:text-teal-400' /></Link>
 
-                        <motion.NavLink
+                        <MotionNavLink
                             whileHover={interactions.buttonHover}
                             whileTap={interactions.buttonTap}
                             // transition={transitions.normal}
-                            to={'/authentication/signin'} className="btn hidden sm:flex bg-teal-300 dark:bg-teal-700 text-black dark:text-white transition duration-150 hover:bg-teal-500 hover:text-white ">Signin</motion.NavLink>
-                        <motion.NavLink
+                            to={'/authentication/signin'} className="btn hidden sm:flex bg-teal-300 dark:bg-teal-700 text-black dark:text-white transition duration-150 hover:bg-teal-500 hover:text-white ">Signin</MotionNavLink>
+                        <MotionNavLink
                             whileHover={interactions.buttonHover}
                             whileTap={interactions.buttonTap}
-                            to={'/authentication/signup'} className="btn hidden sm:flex bg-teal-700 text-white transition duration-150 hover:bg-teal-500">Signup</motion.NavLink>
+                            to={'/authentication/signup'} className="btn hidden sm:flex bg-teal-700 text-white transition duration-150 hover:bg-teal-500">Signup</MotionNavLink>
                     </>
                 }
             </div>
