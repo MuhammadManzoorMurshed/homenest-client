@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaChevronDown, FaSearch } from 'react-icons/fa';
 import { motion } from 'motion/react';
 import { interactions } from '../../animations/interactions';
 // import { transitions } from '../../animations/shared';
 
 const Search = ({ setSearchText, setSortField }) => {
+    const [inputValue, setInputValue] = useState("");
+    const isFirstRender = useRef(true);
     const MotionButton = motion.button;
-    const handleSearch = (e) => {
-        setSearchText(e.target.value);
-    }
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setSearchText(inputValue);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [setSearchText, inputValue]);
+
+    const handleSearch = () => {
+        setSearchText(inputValue);
+    };
 
     const handleSort = (e) => {
         setSortField(e.target.value);
@@ -18,7 +34,10 @@ const Search = ({ setSearchText, setSortField }) => {
     return (
         <section className='my-10 bg-white dark:bg-gray-900 p-5 rounded-md flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 shadow-xs dark:shadow-gray-900/50'>
             <div className='relative sm:flex-1 lg:flex-2'>
-                <input onChange={handleSearch} type="text" placeholder='Example: 2 bed apartment' className='w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-md py-2 px-8 focus:outline-none focus:ring-1 focus:ring-teal-500 placeholder:text-xs dark:placeholder:text-gray-500' />
+                <input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    type="text" placeholder='Example: 2 bed apartment' className='w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-md py-2 px-8 focus:outline-none focus:ring-1 focus:ring-teal-500 placeholder:text-xs dark:placeholder:text-gray-500' />
 
                 <FaSearch className='absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs' />
             </div>
@@ -38,6 +57,7 @@ const Search = ({ setSearchText, setSortField }) => {
                     whileHover={interactions.buttonHover}
                     whileTap={interactions.buttonTap}
                     // transition={transitions.fast}
+                    onClick={handleSearch}
                     className='flex-1 btn bg-teal-500 text-white hover:bg-teal-600 transition duration-150 py-2 px-4'>Search</MotionButton>
             </div>
         </section>

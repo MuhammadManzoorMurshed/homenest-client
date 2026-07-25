@@ -43,8 +43,12 @@ const PropertyCard = ({ property, orchestrated = false }) => {
 
     return (
         <MotionContainer
+            layout
             {...motionProps}
             whileHover={interactions.cardHover}
+            exit={{
+                opacity: 0,
+            }}
 
             transition={transitions.normal}
             className="card bg-teal-50 dark:bg-gray-900 max-w-96 xl:w-96 shadow-sm dark:shadow-gray-900/50 hover:shadow-lg transition-shadow duration-300 rounded-lg relative group">

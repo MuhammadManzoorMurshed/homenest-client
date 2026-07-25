@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropertyCard from '../../components/property-card/PropertyCard';
 import Pagination from '../../components/pagination/Pagination';
 import Search from '../../components/search/Search';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import MySwal from '../../lib/swal';
 import axios from 'axios';
 import Loading from '../../components/loading/Loading';
@@ -11,6 +11,7 @@ import { motion } from 'motion/react';
 import { fadeUp } from '../../animations/fade';
 import { transitions } from '../../animations/shared';
 import AllPropertiesGrid from '../../components/all-properties-grid/AllPropertiesGrid';
+import PropertyNotFound from '../../components/property-not-found/PropertyNotFound';
 
 const containerVariants = {
     hidden: {
@@ -37,28 +38,36 @@ const AllProperties = () => {
     const MotionParagraph = motion.p;
     const MotionContainer = motion.div;
 
+    const handlePageChange = (newPage) => {
+        if (!allProperties?.totalPages) return;
+        if (newPage < 1 || newPage > allProperties.totalPages) return;
+        setPage(newPage);
+    };
+
     const { data: allProperties, isLoading, isFetching, error, isError, refetch } = useQuery({
         queryKey: ['all-properties', searchText, sortField, page],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}&page=${page}&limit=12`);
+            const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}&page=${page}&limit=9`);
 
             return res.data;
         },
-
+        placeholderData: keepPreviousData,
         staleTime: 5000, // 5 seconds
     })
 
-    useEffect(() => {
-        if (allProperties?.data && (allProperties.data.length === 0)) {
-            MySwal.fire({
-                icon: "info",
-                title: "No Properties Found!",
-                text: "Try adjusting your search or filters.",
-                confirmButtonText: "OK",
-                confirmButtonColor: "#0694a2"
-            })
-        }
-    }, [allProperties])
+    const noPropertiesFound = !isLoading && !isFetching && !isError && allProperties?.data?.length === 0;
+
+    // useEffect(() => {
+    //     if (allProperties?.data && (allProperties.data.length === 0)) {
+    //         MySwal.fire({
+    //             icon: "info",
+    //             title: "No Properties Found!",
+    //             text: "Try adjusting your search or filters.",
+    //             confirmButtonText: "OK",
+    //             confirmButtonColor: "#0694a2"
+    //         })
+    //     }
+    // }, [allProperties])
 
     if (isError) {
         MySwal.fire({
@@ -70,15 +79,15 @@ const AllProperties = () => {
         })
     }
 
-    const handleSearchChange = (value) => {
+    const handleSearchChange = useCallback((value) => {
         setSearchText(value);
         setPage(1);
-    }
+    }, []);
 
-    const handleSortChange = (value) => {
+    const handleSortChange = useCallback((value) => {
         setSortField(value);
         setPage(1);
-    }
+    }, []);
 
     // console.log(searchText);
 
@@ -111,7 +120,7 @@ const AllProperties = () => {
             <Search setSearchText={handleSearchChange} setSortField={handleSortChange} />
 
             {
-                (isLoading || isFetching) ? (
+                isLoading ? (
                     <Loading />
                 ) : (
                     <MotionContainer
@@ -123,7 +132,7 @@ const AllProperties = () => {
                             amount: "some",
                         }}
                         className={`${isError ? 'flex flex-col justify-center items-center mt-15 mb-15' : ""}`}>
-                        
+
                         <div>
                             <h2 className={`text-red-600 font-fredoka font-semibold text-3xl text-center mb-4 ${isError ? 'block' : 'hidden'}`}>Error Occurred</h2>
                             <button onClick={() => refetch()} className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition duration-300 hover:scale-105 cursor-pointer ${isError ? 'block' : 'hidden'}`}>
@@ -131,17 +140,18 @@ const AllProperties = () => {
                             </button>
                         </div>
 
-                        <AllPropertiesGrid allProperties={allProperties} />
+                        {
+                                noPropertiesFound ? <PropertyNotFound /> : <AllPropertiesGrid allProperties={allProperties} />
+                        }
                     </MotionContainer>
                 )
             }
 
             <Pagination
-            currentPage={page}
-            totalPages={allProperties?.totalPages}
-            onPageChange={setPage}
-            borderRadius='!rounded-xl'
-            // isHidden='flex'
+                currentPage={page}
+                totalPages={allProperties?.totalPages}
+                onPageChange={handlePageChange}
+                borderRadius='!rounded-xl'
             />
         </div>
     );

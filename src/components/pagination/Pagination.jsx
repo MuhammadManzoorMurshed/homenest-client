@@ -36,7 +36,7 @@ const Pagination = ({ borderRadius, currentPage, totalPages, onPageChange }) => 
                 // transition={transitions.fast}
                 disabled={currentPage === 1}
                 onClick={() => onPageChange(currentPage - 1)}
-                className={`dark:text-gray-200 hover:bg-teal-400 hover:text-white disabled:opacity-40 disabled:pointer-events-none`}>
+                className={`${baseBtn} dark:text-gray-200 hover:bg-teal-400 hover:text-white disabled:opacity-40 disabled:pointer-events-none`}>
                 <FaChevronLeft />
             </MotionButton>
 
