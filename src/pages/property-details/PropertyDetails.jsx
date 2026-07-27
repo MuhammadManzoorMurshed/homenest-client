@@ -5,17 +5,17 @@ import { MdVerified } from "react-icons/md";
 import RatingAndReviews from '../../components/rating-and-reviews/RatingAndReviews';
 import ShareExperience from '../../components/share-experience/ShareExperience';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import MySwal from '../../lib/swal';
 import Loading from '../../components/loading/Loading';
 import { useQuery } from '@tanstack/react-query';
+import axiosSecure from '../../lib/axiosSecure';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const { data: propertyData, isLoading, error, isError } = useQuery({
         queryKey: ['property-details', id],
         queryFn: async () => {
-            return await axios.get(`http://localhost:3000/api/v1/get-property-details/${id}`).then(res => res.data);
+            return await axiosSecure.get(`/get-property-details/${id}`).then(res => res.data);
         }
     })
 
