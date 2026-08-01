@@ -47,7 +47,7 @@ const AllProperties = () => {
     const { data: allProperties, isLoading, isFetching, error, isError, refetch } = useQuery({
         queryKey: ['all-properties', searchText, sortField, page],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:3000/api/v1/get-properties?search=${searchText}&sort=${sortField}&page=${page}&limit=9`);
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/get-properties?search=${searchText}&sort=${sortField}&page=${page}&limit=9`);
 
             return res.data;
         },

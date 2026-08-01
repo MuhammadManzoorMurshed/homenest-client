@@ -20,7 +20,7 @@ const ShareExperience = () => {
     const queryClient = useQueryClient();
     const addReviewMutation = useMutation({
         mutationFn: async (newReview) => {
-            return await axios.post('http://localhost:3000/api/v1/add-review', newReview).then(res => res.data);
+            return await axios.post(`${import.meta.env.VITE_API_URL}/add-review`, newReview).then(res => res.data);
         },
 
         onSuccess: (data) => {

@@ -12,7 +12,7 @@ const RatingAndReviews = () => {
     const { data: reviews, isLoading, isError, error } = useQuery({
         queryKey: ['reviews', id],
         queryFn: async () => {
-            return await axios.get(`http://localhost:3000/api/v1/get-reviews/${id}`).then(res => res.data);
+            return await axios.get(`${import.meta.env.VITE_API_URL}/get-reviews/${id}`).then(res => res.data);
         }
     })
 

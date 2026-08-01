@@ -35,7 +35,7 @@ const FeaturedRealEstate = () => {
     const { data: featuredProperties, isLoading, error, isError, refetch } = useQuery({
         queryKey: ['featured-properties'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:3000/api/v1/get-featured-properties');
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/get-featured-properties`);
 
             return res.data;
         },
